@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { listReservations } from '../utils/api';
+import { listReservations } from '../../utils/api';
 import ErrorAlert from '../layout/ErrorAlert';
 
 /**
@@ -13,16 +13,16 @@ const Dashboard = ({ date }) => {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
-  useEffect(loadDashboard, [date]);
-
-  function loadDashboard() {
+  const loadDashboard = () => {
     const abortController = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     return () => abortController.abort();
-  }
+  };
+
+  useEffect(loadDashboard, [date]);
 
   return (
     <main>
