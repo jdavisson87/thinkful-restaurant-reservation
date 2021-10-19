@@ -10,7 +10,7 @@ import { SideBar } from './Layout.styles';
  *
  * @returns {JSX.Element}
  */
-function Layout() {
+const Layout = () => {
   return (
     <div className="container-fluid">
       <div className="row h-100">
@@ -23,6 +23,6 @@ function Layout() {
       </div>
     </div>
   );
-}
+};
 
 export default Layout;
