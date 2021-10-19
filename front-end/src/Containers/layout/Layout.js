@@ -1,6 +1,6 @@
 import React from 'react';
 import Menu from '../../Components/Menu/Menu';
-import Routes from './Routes';
+import Routes from '../../Routes';
 import { SideBar } from './Layout.styles';
 
 /**
