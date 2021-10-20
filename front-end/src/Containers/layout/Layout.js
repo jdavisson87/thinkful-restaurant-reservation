@@ -1,7 +1,6 @@
 import React from 'react';
 import Menu from '../../Components/Menu/Menu';
 import Routes from '../../Routes';
-import { SideBar } from './Layout.styles';
 
 /**
  * Defines the main layout of the application.
@@ -14,9 +13,9 @@ const Layout = () => {
   return (
     <div className="container-fluid">
       <div className="row h-100">
-        <SideBar className="col-md-2">
+        <div className="col-md-2">
           <Menu />
-        </SideBar>
+        </div>
         <div className="col">
           <Routes />
         </div>
