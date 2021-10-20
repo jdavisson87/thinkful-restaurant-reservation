@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import { Link } from 'react-router-dom';
-import MenuItem from './MenuItem/MenuItem';
+import './Menu.css';
 
 /**
  * Defines the menu for this application.
@@ -9,6 +10,7 @@ import MenuItem from './MenuItem/MenuItem';
  */
 
 const Menu = () => {
+  const [toggle, setToggle] = useState(true);
   return (
     <nav className="navbar navbar-dark align-items-start p-0">
       <div className="container-fluid d-flex flex-column p-0">
@@ -21,37 +23,44 @@ const Menu = () => {
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
-        <ul className="nav navbar-nav text-light" id="accordionSidebar">
-          <MenuItem
-            address="/dashboard"
-            iconClass="oi-dashboard"
-            name="Dashboard"
-          />
-          <MenuItem
-            address="/search"
-            iconClass="oi-magnifying-glass"
-            name="Search"
-          />
-          <MenuItem
-            address="/reservations/new"
-            iconClass="oi-plus"
-            name="New Reservation"
-          />
-          <MenuItem
-            address="/tables/new"
-            iconClass="oi-layers"
-            name="New Table"
-          />
-        </ul>
-        {/*<div className="text-center d-none d-md-inline">
+        {toggle && (
+          <ul className="nav navbar-nav text-light" id="accordionSidebar">
+            <li className="nav-item">
+              <Link className="nav-link" directTo="/dashboard">
+                <span className="oi oi-dashboard" />
+                &nbsp;Dashboard
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/search">
+                <span className="oi oi-magnifying-glass" />
+                &nbsp;Search
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/reservations/new">
+                <span className="oi oi-plus" />
+                &nbsp;New Reservation
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/tables/new">
+                <span className="oi oi-layers" />
+                &nbsp;New Table
+              </Link>
+            </li>
+          </ul>
+        )}
+        <div className="text-center d-none d-md-inline">
           <button
-            className="btn rounded-circle border-0"
+            className="btn rounded-circle border-0 plus-btn"
             id="sidebarToggle"
             type="button"
+            onClick={() => setToggle(!toggle)}
           >
             <span className="oi oi-plus" />
           </button>
-  </div>*/}
+        </div>
       </div>
     </nav>
   );
