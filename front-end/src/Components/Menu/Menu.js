@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
+import MenuItem from './MenuItem/MenuItem';
 
 /**
  * Defines the menu for this application.
@@ -22,32 +22,28 @@ const Menu = () => {
         </Link>
         <hr className="sidebar-divider my-0" />
         <ul className="nav navbar-nav text-light" id="accordionSidebar">
-          <li className="nav-item">
-            <Link className="nav-link" directTo="/dashboard">
-              <span className="oi oi-dashboard" />
-              &nbsp;Dashboard
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/search">
-              <span className="oi oi-magnifying-glass" />
-              &nbsp;Search
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/reservations/new">
-              <span className="oi oi-plus" />
-              &nbsp;New Reservation
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/tables/new">
-              <span className="oi oi-layers" />
-              &nbsp;New Table
-            </Link>
-          </li>
+          <MenuItem
+            address="/dashboard"
+            iconClass="oi-dashboard"
+            name="Dashboard"
+          />
+          <MenuItem
+            address="/search"
+            iconClass="oi-magnifying-glass"
+            name="Search"
+          />
+          <MenuItem
+            address="/reservations/new"
+            iconClass="oi-plus"
+            name="New Reservation"
+          />
+          <MenuItem
+            address="/tables/new"
+            iconClass="oi-layers"
+            name="New Table"
+          />
         </ul>
-        <div className="text-center d-none d-md-inline">
+        {/*<div className="text-center d-none d-md-inline">
           <button
             className="btn rounded-circle border-0"
             id="sidebarToggle"
@@ -55,7 +51,7 @@ const Menu = () => {
           >
             <span className="oi oi-plus" />
           </button>
-        </div>
+  </div>*/}
       </div>
     </nav>
   );
