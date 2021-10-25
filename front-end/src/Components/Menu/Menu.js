@@ -18,15 +18,17 @@ const Menu = () => {
           className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
           to="/"
         >
-          <div className="sidebar-brand-text mx-3">
-            <span>Periodic Tables</span>
+          <div className="sidebar-brand-text mx-0">
+            <span>Periodic Table</span>
+            <br />
+            <span> Reservation System</span>
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
         {toggle && (
           <ul className="nav navbar-nav text-light" id="accordionSidebar">
             <li className="nav-item">
-              <Link className="nav-link" directTo="/dashboard">
+              <Link className="nav-link" to="/dashboard">
                 <span className="oi oi-dashboard" />
                 &nbsp;Dashboard
               </Link>
