@@ -4,7 +4,9 @@ import SearchForm from '../../Forms/SearchForm';
 const Search = () => {
   return (
     <div>
-      <h1>Search</h1>
+      <div className="d-md-flex text-center">
+        <h1>Search</h1>
+      </div>
       <SearchForm />
     </div>
   );
