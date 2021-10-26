@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchForm from '../../Forms/SearchForm';
 
-const Search = () => {
+const SearchCtr = () => {
   return (
     <div>
       <div className="d-md-flex text-center">
@@ -12,4 +12,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchCtr;
