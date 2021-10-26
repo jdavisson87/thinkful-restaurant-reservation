@@ -2,9 +2,10 @@ import React from 'react';
 
 const SearchForm = () => {
   return (
-    <div>
-      <form className="form-inline">
+    <div className="d-flex justify-content-center justify-content-md-start">
+      <form className="form-group text-center text-md-left">
         <label htmlFor="mobile_number">Search by Mobile Number</label>
+
         <div className="input-group mb-3">
           <input
             type="phone"
