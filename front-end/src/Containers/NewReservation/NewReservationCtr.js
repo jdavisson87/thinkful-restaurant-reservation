@@ -1,9 +1,11 @@
 import React from 'react';
+import ReservationForm from '../../Forms/ReservationForm';
 
 const NewReservationCtr = () => {
   return (
     <div>
-      <p>New Reservation</p>
+      <h1 className="m-3">New Reservation</h1>
+      <ReservationForm />
     </div>
   );
 };
