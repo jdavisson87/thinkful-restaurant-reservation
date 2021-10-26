@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Dashboard from './Containers/dashboard/Dashboard';
+import Search from './Containers/Search/Search';
 import NotFound from './ErrorHandlers/NotFound';
 import NewReservationCtr from './Containers/NewReservation/NewReservationCtr';
 import { today } from './utils/date-time';
@@ -24,6 +25,9 @@ function Routes() {
       </Route>
       <Route exact={true} path="/reservations">
         <Redirect to={'/dashboard'} />
+      </Route>
+      <Route path="/search">
+        <Search />
       </Route>
       <Route path="/dashboard">
         <Dashboard date={today()} />
