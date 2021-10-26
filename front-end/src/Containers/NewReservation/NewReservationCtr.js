@@ -4,7 +4,7 @@ import ReservationForm from '../../Forms/ReservationForm';
 const NewReservationCtr = () => {
   return (
     <div>
-      <h1>New Reservation</h1>
+      <h1 className="m-3">New Reservation</h1>
       <ReservationForm />
     </div>
   );
