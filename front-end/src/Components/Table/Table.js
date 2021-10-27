@@ -7,7 +7,7 @@ const Table = ({ table_name = 'table', size = 1, reserved = false }) => {
   let tableShape = size <= 2 ? 'double' : size <= 4 ? 'quad' : 'great';
 
   return (
-    <div className="card tableCard">
+    <div className="card tableCard m-2">
       <div className="card-header">{table_name}</div>
       <div className="d-flex justify-content-center tableShape">
         <div className={`${tableShape}`} />

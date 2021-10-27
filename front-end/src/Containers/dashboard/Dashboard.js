@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { listReservations } from '../../utils/api';
 import TableList from '../TableList/TableList';
+import ReservationList from '../ReservationList/ReservationList';
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 /**
@@ -30,6 +31,7 @@ const Dashboard = ({ date }) => {
       <h1>Dashboard</h1>
       <div className="d-md-flex flex-column mb-3">
         <h4 className="mb-0">Reservations for date</h4>
+        <ReservationList />
         <TableList />
       </div>
       <ErrorAlert error={reservationsError} />
