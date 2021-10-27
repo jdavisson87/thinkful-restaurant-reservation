@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { listReservations } from '../../utils/api';
+import TableList from '../TableList/TableList';
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 /**
@@ -27,8 +28,9 @@ const Dashboard = ({ date }) => {
   return (
     <main>
       <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
+      <div className="d-md-flex flex-column mb-3">
         <h4 className="mb-0">Reservations for date</h4>
+        <TableList />
       </div>
       <ErrorAlert error={reservationsError} />
       {JSON.stringify(reservations)}
