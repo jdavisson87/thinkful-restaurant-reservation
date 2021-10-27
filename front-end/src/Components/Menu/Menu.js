@@ -11,6 +11,8 @@ import './Menu.css';
 
 const Menu = () => {
   const [toggle, setToggle] = useState(true);
+
+  // if screen size decreases, need to toggle back to true
   return (
     <nav className="navbar navbar-dark align-items-start p-0">
       <div className="container-fluid d-flex flex-column p-0">
