@@ -20,7 +20,8 @@ const ReservationItem = ({
         <div className="row">
           <span className="col-6">Reservation Time: {reservationTime}</span>
           <div className="d-flex col-6 justify-content-center">
-            <button className="btn btn-primary">Seat</button>
+            <button className="btn btn-success m-1">Edit</button>
+            <button className="btn btn-primary m-1">Seat</button>
           </div>
         </div>
       </div>
