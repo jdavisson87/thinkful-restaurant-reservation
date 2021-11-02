@@ -1,11 +1,19 @@
 import React from 'react';
 import ReservationItem from '../../Components/ReservationItem/ReservationItem';
 
-const ReservationList = () => {
+const ReservationList = ({ reservations = [] }) => {
   return (
     <div>
-      <p>Reservation List</p>
-      <ReservationItem />
+      {reservations.length !== 0 ? (
+        <div>
+          <p>No reservations</p>
+        </div>
+      ) : (
+        <div>
+          <ReservationItem />
+          <ReservationItem />
+        </div>
+      )}
     </div>
   );
 };

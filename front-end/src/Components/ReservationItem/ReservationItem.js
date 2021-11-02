@@ -8,7 +8,7 @@ const ReservationItem = ({
   reservationTime = '3:00PM',
 }) => {
   return (
-    <div className="card">
+    <div className="card m-1">
       <div className="card-header">
         {first} {last}
       </div>
@@ -21,7 +21,7 @@ const ReservationItem = ({
           <span className="col-6">Reservation Time: {reservationTime}</span>
           <div className="d-flex col-6 justify-content-center">
             <button className="btn btn-success m-1">Edit</button>
-            <button className="btn btn-primary m-1">Seat</button>
+            <button className="btn btn-info m-1">Seat</button>
           </div>
         </div>
       </div>
