@@ -1,6 +1,8 @@
 import React from 'react';
 import Clock from '../Clock/Clock';
+import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/format-date';
+import { today, previous, next } from '../../utils/date-time';
 
 const DatePicker = ({ date }) => {
   return (
@@ -10,9 +12,18 @@ const DatePicker = ({ date }) => {
         <Clock />
       </div>
       <div>
-        <button className="btn btn-info m-2">Previous</button>
-        <button className="btn btn-dark m-2">Today</button>
-        <button className="btn btn-info m-2">Next</button>
+        <Link
+          className="btn btn-info m-2"
+          to={`/dashboard?date=${previous(date)}`}
+        >
+          Previous
+        </Link>
+        <Link className="btn btn-dark m-2" to={`/dashboard?date=${today()}`}>
+          Today
+        </Link>
+        <Link className="btn btn-info m-2" to={`/dashboard?date=${next(date)}`}>
+          Next
+        </Link>
       </div>
     </div>
   );
