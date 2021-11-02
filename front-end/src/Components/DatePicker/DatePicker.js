@@ -16,13 +16,13 @@ const DatePicker = ({ date }) => {
           className="btn btn-info m-2"
           to={`/dashboard?date=${previous(date)}`}
         >
-          Previous
+          &lArr; Previous
         </Link>
         <Link className="btn btn-dark m-2" to={`/dashboard?date=${today()}`}>
           Today
         </Link>
         <Link className="btn btn-info m-2" to={`/dashboard?date=${next(date)}`}>
-          Next
+          Next &rArr;
         </Link>
       </div>
     </div>
