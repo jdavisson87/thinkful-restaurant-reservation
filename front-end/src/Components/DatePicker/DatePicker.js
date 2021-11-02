@@ -1,11 +1,12 @@
 import React from 'react';
 import Clock from '../Clock/Clock';
+import { formatDate } from '../../utils/format-date';
 
-const DatePicker = () => {
+const DatePicker = ({ date }) => {
   return (
-    <div className="d-flex flex-column text-center">
+    <div className="d-flex flex-column text-center m-4">
       <div>
-        <h2>Saturday, Oct 30, 2021</h2>
+        <h2>{formatDate(date)}</h2>
         <Clock />
       </div>
       <div>

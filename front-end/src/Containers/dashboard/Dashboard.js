@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { listReservations } from '../../utils/api';
 import DatePicker from '../../Components/DatePicker/DatePicker';
 import TableList from '../TableList/TableList';
+import useQuery from '../../utils/useQuery';
 import ReservationList from '../ReservationList/ReservationList';
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
@@ -13,6 +14,11 @@ import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
  */
 
 const Dashboard = ({ date }) => {
+  const dateUrl = useQuery().get('date');
+  if (dateUrl) {
+    date = dateUrl;
+  }
+
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
@@ -29,9 +35,8 @@ const Dashboard = ({ date }) => {
 
   return (
     <main>
-      <h1>Dashboard</h1>
       <div className="d-md-flex flex-column mb-3">
-        <DatePicker />
+        <DatePicker date={date} />
         <h4 className="mb-0">Reservations for date</h4>
         <ReservationList />
         <TableList />
