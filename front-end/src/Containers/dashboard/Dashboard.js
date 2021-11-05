@@ -37,8 +37,9 @@ const Dashboard = ({ date }) => {
     <main>
       <div className="d-md-flex flex-column mb-3">
         <DatePicker date={date} />
-        <h4 className="mb-0">Reservations for date</h4>
+        <h3 className="mb-0">Reservations for date</h3>
         <ReservationList />
+        <h3 className="mb-0">Table List</h3>
         <TableList />
       </div>
       <ErrorAlert error={reservationsError} />
