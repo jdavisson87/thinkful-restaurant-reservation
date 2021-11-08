@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCogs } from '@fortawesome/free-solid-svg-icons';
+
 import './Table.css';
 
 const Table = ({ table_name = 'table', size = 1 }) => {
@@ -22,7 +26,14 @@ const Table = ({ table_name = 'table', size = 1 }) => {
 
   return (
     <div className="card tableCard m-2">
-      <div className="card-header">{table_name}</div>
+      <div className="card-header d-flex justify-content-between align-content-center">
+        <h5 className="m-0">{table_name}</h5>
+        <div>
+          <Link>
+            <FontAwesomeIcon icon={faCogs} />
+          </Link>
+        </div>
+      </div>
       <div className="d-flex justify-content-center tableShape">
         <div className={`${tableShape}`} />
       </div>

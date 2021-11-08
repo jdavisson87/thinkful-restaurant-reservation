@@ -9,7 +9,6 @@ const TableList = () => {
   };
   useEffect(() => {
     loadTables();
-    console.log(tables);
   }, []);
 
   const [tables, setTables] = useState([
@@ -21,7 +20,7 @@ const TableList = () => {
       <p>Loading...</p>
     </div>
   ) : (
-    <div className="d-flex flex-wrap justify-content-md-start justify-content-between">
+    <div className="d-flex flex-wrap justify-content-md-between justify-content-around">
       {tables.map((table) => (
         <Table
           table_name={table.table_name}
@@ -29,9 +28,6 @@ const TableList = () => {
           reserved={table.open}
         />
       ))}
-      <Table table_name="table 1" size={4} reserved={true} />
-      <Table table_name="table 2" size={2} reserved={false} />
-      <Table table_name="table 3" size={6} reserved={true} />
     </div>
   );
 };

@@ -43,7 +43,6 @@ const Dashboard = ({ date }) => {
         <TableList />
       </div>
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
     </main>
   );
 };
