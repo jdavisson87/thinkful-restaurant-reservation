@@ -9,6 +9,9 @@ const Tables = () => (
       <Route path={'/tables/new'}>
         <NewTable />
       </Route>
+      <Route path={'/tables/:table_id'}>
+        <NewTable />
+      </Route>
       <Route>
         <NotFound />
       </Route>
