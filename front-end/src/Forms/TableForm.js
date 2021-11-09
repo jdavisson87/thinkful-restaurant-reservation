@@ -32,17 +32,29 @@ const TableForm = () => {
     setNewTable({ ...newTable, [target.name]: value });
   };
 
+  const handleDelete = () => {
+    console.log('click');
+  };
+
   const handleCancel = (event) => {
     event.preventDefault();
     history.goBack();
   };
+
+  const disableBtn = table_id < 5 ? true : false;
 
   const updateSubmitButtons = table_id ? (
     <div>
       <button type="submit" className="btn btn-primary m-3">
         Update
       </button>
-      <button className="btn btn-danger m-3">Delete</button>
+      <button
+        className="btn btn-danger m-3"
+        disabled={disableBtn}
+        onClick={handleDelete}
+      >
+        Delete
+      </button>
     </div>
   ) : (
     <div>
@@ -61,6 +73,7 @@ const TableForm = () => {
             <input
               type="text"
               value={newTable.table_name}
+              onChange={handleChange}
               name="table_name"
               required
             />
@@ -90,6 +103,11 @@ const TableForm = () => {
           </button>
           {updateSubmitButtons}
         </div>
+        {disableBtn && (
+          <div>
+            <p>You are unable to delete this table</p>
+          </div>
+        )}
       </form>
     </div>
   );
