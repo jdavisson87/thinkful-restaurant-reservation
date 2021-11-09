@@ -8,20 +8,19 @@ const list = async (req, res) => {
 };
 
 const tableExist = async (req, res, next) => {
-  const { tableId } = req.params;
-  const table = await service.read(tableId);
-  if (tableId) {
+  const { table_id } = req.params;
+  const table = await service.read(table_id);
+  if (table) {
     res.locals.table = table;
+
     return next();
   }
   return next({ status: 404, message: 'Table cannot be found' });
 };
 
 const read = async (req, res) => {
-  const table = await service.read();
-  res.locals.table = table;
-  const { data } = res.table;
-  res.json({ data: data });
+  const { table } = res.locals;
+  res.json({ data: table });
 };
 
 const update = async (req, res, next) => {

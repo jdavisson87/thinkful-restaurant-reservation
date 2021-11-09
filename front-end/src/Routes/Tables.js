@@ -1,16 +1,17 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import NotFound from '../ErrorHandlers/NotFound';
-import NewTable from '../Containers/NewTable/NewTableCtr';
+import NewTableCtr from '../Containers/NewTable/NewTableCtr';
+import EditTableCtr from '../Containers/EditTable/EditTableCtr';
 
 const Tables = () => (
   <div>
     <Switch>
       <Route path={'/tables/new'}>
-        <NewTable />
+        <NewTableCtr />
       </Route>
-      <Route path={'/tables/:table_id'}>
-        <NewTable />
+      <Route path={'/tables/:table_id/edit'}>
+        <EditTableCtr />
       </Route>
       <Route>
         <NotFound />

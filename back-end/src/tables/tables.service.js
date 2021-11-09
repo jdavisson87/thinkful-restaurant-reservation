@@ -4,8 +4,11 @@ const list = () => {
   return knex('tables').select('*').orderBy('table_name');
 };
 
-const read = (tableId) => {
-  return knex('tables').select('*').where({ table_id: tableId }).first();
+const read = (id) => {
+  return knex('tables')
+    .select('*')
+    .where({ table_id: id })
+    .then((result) => result[0]);
 };
 
 const update = (updatedTable) => {

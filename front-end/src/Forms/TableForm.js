@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { getTable } from '../utils/api';
 
-const NewTableForm = () => {
+const TableForm = () => {
+  const { table_id } = useParams();
+  const [tableError, setTableError] = useState(null);
   const history = useHistory();
+
   const initialNewTable = {
     table_name: '',
     capacity: 1,
   };
+
   const [newTable, setNewTable] = useState(initialNewTable);
+
+  useEffect(() => {
+    if (!table_id) return;
+    const abortController = new AbortController();
+    setTableError(null);
+
+    getTable(table_id, abortController.signal)
+      .then(setNewTable)
+      .catch(setTableError);
+
+    return () => abortController.abort();
+  }, [table_id]);
 
   const handleChange = ({ target }) => {
     let value = target.value;
@@ -64,4 +82,4 @@ const NewTableForm = () => {
   );
 };
 
-export default NewTableForm;
+export default TableForm;

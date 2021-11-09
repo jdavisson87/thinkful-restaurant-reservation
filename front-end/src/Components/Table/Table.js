@@ -5,7 +5,7 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons';
 
 import './Table.css';
 
-const Table = ({ table_name = 'table', size = 1 }) => {
+const Table = ({ table_name = 'table', size = 1, tableId }) => {
   const [occupied, setOccupied] = useState(false);
 
   let status = occupied === false ? 'Free' : 'Occupied';
@@ -25,11 +25,11 @@ const Table = ({ table_name = 'table', size = 1 }) => {
   };
 
   return (
-    <div className="card tableCard m-2">
+    <li className="card tableCard m-2" key={tableId}>
       <div className="card-header d-flex justify-content-between align-content-center">
         <h5 className="m-0">{table_name}</h5>
         <div>
-          <Link>
+          <Link to={`/tables/${tableId}/edit`}>
             <FontAwesomeIcon icon={faCogs} />
           </Link>
         </div>
@@ -53,7 +53,7 @@ const Table = ({ table_name = 'table', size = 1 }) => {
       <button className={`btn ${btnColor}`} onClick={handleSeat}>
         {occupied ? 'Finished' : 'Seat'}
       </button>
-    </div>
+    </li>
   );
 };
 

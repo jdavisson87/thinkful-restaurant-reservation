@@ -11,24 +11,23 @@ const TableList = () => {
     loadTables();
   }, []);
 
-  const [tables, setTables] = useState([
-    { table_name: 'table1', capacity: 5, open: true },
-  ]);
+  const [tables, setTables] = useState([]);
 
   return tables.length === 0 ? (
     <div>
       <p>Loading...</p>
     </div>
   ) : (
-    <div className="d-flex flex-wrap justify-content-md-between justify-content-around">
+    <ul className="d-flex flex-wrap justify-content-md-between justify-content-around p-0">
       {tables.map((table) => (
         <Table
           table_name={table.table_name}
           size={table.capacity}
           reserved={table.open}
+          tableId={table.table_id}
         />
       ))}
-    </div>
+    </ul>
   );
 };
 
