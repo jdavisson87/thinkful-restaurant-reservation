@@ -32,16 +32,17 @@ const TableForm = () => {
     setNewTable({ ...newTable, [target.name]: value });
   };
 
-  const handleDelete = () => {
-    console.log('click');
+  const handleDelete = (e) => {
+    e.preventDefault();
+    console.log(table_id);
   };
 
-  const handleCancel = (event) => {
-    event.preventDefault();
+  const handleCancel = (e) => {
+    e.preventDefault();
     history.goBack();
   };
 
-  const disableBtn = table_id < 5 ? true : false;
+  const disableBtn = table_id < 2 ? true : false;
 
   const updateSubmitButtons = table_id ? (
     <div>

@@ -19,6 +19,13 @@ const tableExist = async (req, res, next) => {
   return next({ status: 404, message: 'Table cannot be found' });
 };
 
+// CRUDL
+
+const create = async (req, res) => {
+  const data = await service.create(req.body.data);
+  res.status(201).json({ data });
+};
+
 const read = async (req, res) => {
   const { table } = res.locals;
   res.json({ data: table });
@@ -40,6 +47,7 @@ const destroy = async (req, res, next) => {
 
 module.exports = {
   list: asyncErrorBoundary(list),
+  create: [asyncErrorBoundary(create)],
   read: [asyncErrorBoundary(tableExist), asyncErrorBoundary(read)],
   update: [asyncErrorBoundary(tableExist), asyncErrorBoundary(update)],
   delete: [asyncErrorBoundary(tableExist), asyncErrorBoundary(destroy)],
