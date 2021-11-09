@@ -1,4 +1,5 @@
 const service = require('./tables.service');
+const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 
 const list = async (req, res) => {
   const tables = await service.list();
@@ -38,8 +39,8 @@ const destroy = async (req, res, next) => {
 };
 
 module.exports = {
-  list,
-  read: [tableExist, read],
-  update: [tableExist, update],
-  delete: [tableExist, destroy],
+  list: asyncErrorBoundary(list),
+  read: [asyncErrorBoundary(tableExist), asyncErrorBoundary(read)],
+  update: [asyncErrorBoundary(tableExist), asyncErrorBoundary(update)],
+  delete: [asyncErrorBoundary(tableExist), asyncErrorBoundary(destroy)],
 };
