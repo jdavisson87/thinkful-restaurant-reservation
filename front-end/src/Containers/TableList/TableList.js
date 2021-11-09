@@ -25,6 +25,7 @@ const TableList = () => {
           size={table.capacity}
           reserved={table.open}
           tableId={table.table_id}
+          key={`${table.table_id}${table.table_name}`}
         />
       ))}
     </ul>

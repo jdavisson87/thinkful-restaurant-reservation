@@ -81,3 +81,14 @@ export const getTable = async (tableId, signal) => {
   const url = new URL(`${API_BASE_URL}/tables/${tableId}/edit`);
   return await fetchJson(url, { headers, signal }, []);
 };
+
+export const postTable = async (tableDetails, signal) => {
+  const url = new URL(`${API_BASE_URL}/tables/new`);
+  const options = {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ data: tableDetails }),
+    signal,
+  };
+  return await fetchJson(url, options);
+};

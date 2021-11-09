@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { getTable } from '../utils/api';
+import { getTable, postTable } from '../utils/api';
+import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
 const TableForm = () => {
   const { table_id } = useParams();
@@ -42,6 +43,17 @@ const TableForm = () => {
     history.goBack();
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const abortController = new AbortController();
+    setTableError(null);
+    postTable(newTable, abortController.signal)
+      .then(() => history.push('/dashboard'))
+      .catch(setTableError);
+    return () => abortController.abort();
+  };
+
   const disableBtn = table_id < 2 ? true : false;
 
   const updateSubmitButtons = table_id ? (
@@ -67,7 +79,7 @@ const TableForm = () => {
 
   return (
     <div className="d-md-flex justify-content-around justify-content-md-start">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group row">
           <label className="col-sm-3 col-form-label">Table Name</label>
           <div className="col-sm-9">
@@ -110,6 +122,7 @@ const TableForm = () => {
           </div>
         )}
       </form>
+      <ErrorAlert error={tableError} />
     </div>
   );
 };

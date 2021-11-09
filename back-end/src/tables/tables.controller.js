@@ -19,10 +19,54 @@ const tableExist = async (req, res, next) => {
   return next({ status: 404, message: 'Table cannot be found' });
 };
 
+const duplicateNameCheck = async (req, res, next) => {
+  const { table_name } = req.body.data;
+  const tables = await service.list();
+  const tableNames = tables.map((table) => table.table_name);
+  if (tableNames.includes(table_name)) {
+    return next({
+      status: 404,
+      message: 'There is already a table with this name',
+    });
+  }
+  next();
+};
+
+const tableNameIsValid = (tableName) => {
+  return tableName.length > 1;
+};
+
+const capacityIsValid = (capacity) => {
+  return capacity > 0;
+};
+
+const validValues = (req, res, next) => {
+  const { table_name, capacity } = req.body.data;
+  if (!capacity || !capacityIsValid(capacity)) {
+    return next({
+      status: 400,
+      message: 'capacity must be a whole number greater than or equal to 1',
+    });
+  }
+  if (!table_name || !tableNameIsValid(table_name)) {
+    return next({
+      status: 400,
+      message: 'table_name must be more than one character',
+    });
+  }
+  next();
+};
+
 // CRUDL
 
 const create = async (req, res) => {
-  const data = await service.create(req.body.data);
+  const newTable = await service.create(req.body.data);
+  const data = {
+    table_name: newTable.table_name,
+    capacity: newTable.capacity,
+    open: true,
+    reservation_id: null,
+  };
   res.status(201).json({ data });
 };
 
@@ -38,6 +82,8 @@ const update = async (req, res, next) => {
     .catch(next);
 };
 
+// Need to make sure the destroy function is not called if table_id is less than 5
+
 const destroy = async (req, res, next) => {
   service
     .delete(res.locals.table.table_id)
@@ -47,7 +93,11 @@ const destroy = async (req, res, next) => {
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: [asyncErrorBoundary(create)],
+  create: [
+    validValues,
+    asyncErrorBoundary(duplicateNameCheck),
+    asyncErrorBoundary(create),
+  ],
   read: [asyncErrorBoundary(tableExist), asyncErrorBoundary(read)],
   update: [asyncErrorBoundary(tableExist), asyncErrorBoundary(update)],
   delete: [asyncErrorBoundary(tableExist), asyncErrorBoundary(destroy)],
