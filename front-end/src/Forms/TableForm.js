@@ -37,6 +37,21 @@ const TableForm = () => {
     history.goBack();
   };
 
+  const updateSubmitButtons = table_id ? (
+    <div>
+      <button type="submit" className="btn btn-primary m-3">
+        Update
+      </button>
+      <button className="btn btn-danger m-3">Delete</button>
+    </div>
+  ) : (
+    <div>
+      <button type="submit" className="btn btn-primary m-3">
+        Submit
+      </button>
+    </div>
+  );
+
   return (
     <div className="d-md-flex justify-content-around justify-content-md-start">
       <form>
@@ -73,9 +88,7 @@ const TableForm = () => {
           >
             Cancel
           </button>
-          <button type="submit" className="btn btn-primary m-3">
-            Submit
-          </button>
+          {updateSubmitButtons}
         </div>
       </form>
     </div>
