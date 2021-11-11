@@ -3,6 +3,8 @@ import Table from '../../Components/Table/Table';
 import { listTables } from '../../utils/api';
 
 const TableList = () => {
+  // create a loading state
+
   const loadTables = () => {
     const abortController = new AbortController();
     listTables(abortController.signal).then(setTables);

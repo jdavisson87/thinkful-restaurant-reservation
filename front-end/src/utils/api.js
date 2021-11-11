@@ -92,3 +92,13 @@ export const postTable = async (tableDetails, signal) => {
   };
   return await fetchJson(url, options);
 };
+
+export const deleteTable = async (tableId, signal) => {
+  const url = new URL(`${API_BASE_URL}/tables/${tableId}/edit`);
+  const options = {
+    method: 'DELETE',
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+};

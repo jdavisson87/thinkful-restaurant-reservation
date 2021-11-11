@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { getTable, postTable } from '../utils/api';
+import { getTable, postTable, deleteTable } from '../utils/api';
 import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
 const TableForm = () => {
@@ -35,7 +35,13 @@ const TableForm = () => {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    console.log(table_id);
+    const abortController = new AbortController();
+    setTableError(null);
+
+    deleteTable(table_id)
+      .then(() => history.push('/dashboard'))
+      .catch(setTableError);
+    return () => abortController.abort();
   };
 
   const handleCancel = (e) => {

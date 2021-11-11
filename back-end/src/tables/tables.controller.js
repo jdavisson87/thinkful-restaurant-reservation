@@ -57,6 +57,17 @@ const validValues = (req, res, next) => {
   next();
 };
 
+const isTableValidForDeletion = (req, res, next) => {
+  const { table_id } = res.locals.table;
+  if (table_id < 5) {
+    return next({
+      status: 400,
+      message: 'This is a default table and is unable to be deleted',
+    });
+  }
+  next();
+};
+
 // CRUDL
 
 const create = async (req, res) => {
@@ -100,5 +111,9 @@ module.exports = {
   ],
   read: [asyncErrorBoundary(tableExist), asyncErrorBoundary(read)],
   update: [asyncErrorBoundary(tableExist), asyncErrorBoundary(update)],
-  delete: [asyncErrorBoundary(tableExist), asyncErrorBoundary(destroy)],
+  delete: [
+    asyncErrorBoundary(tableExist),
+    isTableValidForDeletion,
+    asyncErrorBoundary(destroy),
+  ],
 };
