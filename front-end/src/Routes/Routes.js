@@ -6,6 +6,7 @@ import Search from '../Containers/Search/SearchCtr';
 import Tables from './Tables';
 import NotFound from '../ErrorHandlers/NotFound';
 import NewReservationCtr from '../Containers/NewReservation/NewReservationCtr';
+import ReservationRoutes from './Reservations';
 import { today } from '../utils/date-time';
 
 /**
@@ -21,11 +22,11 @@ function Routes() {
       <Route exact={true} path="/">
         <Redirect to={'/dashboard'} />
       </Route>
-      <Route path="/reservations/new">
-        <NewReservationCtr />
-      </Route>
       <Route exact={true} path="/reservations">
         <Redirect to={'/dashboard'} />
+      </Route>
+      <Route path="/reservations">
+        <ReservationRoutes />
       </Route>
       <Route path="/tables">
         <Tables />
