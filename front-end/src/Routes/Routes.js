@@ -5,7 +5,6 @@ import Dashboard from '../Containers/dashboard/Dashboard';
 import Search from '../Containers/Search/SearchCtr';
 import Tables from './Tables';
 import NotFound from '../ErrorHandlers/NotFound';
-import NewReservationCtr from '../Containers/NewReservation/NewReservationCtr';
 import ReservationRoutes from './Reservations';
 import { today } from '../utils/date-time';
 

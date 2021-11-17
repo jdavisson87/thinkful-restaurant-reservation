@@ -18,7 +18,7 @@ const ReservationForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    console.log(formData, ' reservation form');
   };
 
   const handleChange = ({ target }) => {

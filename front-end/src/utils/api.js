@@ -60,7 +60,7 @@ async function fetchJson(url, options, onCancel) {
 
 //  Reservations
 
-export async function listReservations(params, signal) {
+export const listReservations = async (params, signal) => {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
@@ -68,7 +68,7 @@ export async function listReservations(params, signal) {
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
-}
+};
 
 // Tables
 

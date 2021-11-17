@@ -10,17 +10,16 @@ const ReservationList = ({ date }) => {
   const loadReservations = () => {
     const abortController = new AbortController();
     setReservationsError(null);
+
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
 
-    console.log(reservations, date);
     return () => abortController.abort();
   };
 
-  useEffect(() => {
-    loadReservations();
-  }, [date]);
+  useEffect(loadReservations, [date]);
+  console.log(reservations, date, ' reservation list');
 
   return (
     <div>
