@@ -21,18 +21,22 @@ const ReservationList = ({ date }) => {
   useEffect(loadReservations, [date]);
   console.log(reservations, date, ' reservation list');
 
+  let content =
+    reservations.length === 0 ? (
+      <div>
+        <p>There are no reservations</p>
+      </div>
+    ) : (
+      <ul>
+        {reservations.map((reservation) => (
+          <ReservationItem reservation={reservation} />
+        ))}
+      </ul>
+    );
+
   return (
     <div>
-      {reservations.length !== 0 ? (
-        <div>
-          <p>No reservations</p>
-        </div>
-      ) : (
-        <div>
-          <ReservationItem />
-          <ReservationItem />
-        </div>
-      )}
+      {content}
       <ErrorAlert error={reservationsError} />
     </div>
   );
