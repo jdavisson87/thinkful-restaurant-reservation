@@ -63,7 +63,7 @@ const TableForm = () => {
   const disableBtn = table_id < 2 ? true : false;
 
   const updateSubmitButtons = table_id ? (
-    <div>
+    <div className="d-flex">
       <button type="submit" className="btn btn-primary m-3">
         Update
       </button>
@@ -128,7 +128,9 @@ const TableForm = () => {
           </div>
         )}
       </form>
-      <ErrorAlert error={tableError} />
+      <div>
+        <ErrorAlert error={tableError} />
+      </div>
     </div>
   );
 };

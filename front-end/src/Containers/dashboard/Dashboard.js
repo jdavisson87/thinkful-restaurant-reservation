@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { listReservations } from '../../utils/api';
+import React from 'react';
 import DatePicker from '../../Components/DatePicker/DatePicker';
 import TableList from '../TableList/TableList';
 import useQuery from '../../utils/useQuery';
 import ReservationList from '../ReservationList/ReservationList';
-import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 /**
  * Defines the dashboard page.
@@ -19,30 +17,15 @@ const Dashboard = ({ date }) => {
     date = dateUrl;
   }
 
-  const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
-
-  const loadDashboard = () => {
-    const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
-    return () => abortController.abort();
-  };
-
-  useEffect(loadDashboard, [date]);
-
   return (
     <main>
       <div className="d-md-flex flex-column mb-3">
         <DatePicker date={date} />
         <h3 className="mb-0">Reservations for date</h3>
-        <ReservationList />
+        <ReservationList date={date} />
         <h3 className="mb-0">Table List</h3>
         <TableList />
       </div>
-      <ErrorAlert error={reservationsError} />
     </main>
   );
 };
