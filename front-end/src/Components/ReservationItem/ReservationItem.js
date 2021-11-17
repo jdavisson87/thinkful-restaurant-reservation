@@ -1,14 +1,14 @@
 import React from 'react';
 
 const ReservationItem = ({ reservation }) => {
-  console.log(reservation);
   const { first_name, last_name, mobile_number, people, reservation_time } =
     reservation;
+
   return (
-    <div className="card m-1">
-      <div className="card-header">
+    <li className="card m-1">
+      <h5 className="card-header font-weight-bold">
         {first_name} {last_name}
-      </div>
+      </h5>
       <div className="card-body p-2 container">
         <div className="row">
           <span className="col-6">Mobile: {mobile_number}</span>
@@ -22,7 +22,7 @@ const ReservationItem = ({ reservation }) => {
           </div>
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 

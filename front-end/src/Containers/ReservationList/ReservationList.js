@@ -4,6 +4,7 @@ import { listReservations } from '../../utils/api';
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 const ReservationList = ({ date }) => {
+  const [loading, setLoading] = useState(true);
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
@@ -12,7 +13,10 @@ const ReservationList = ({ date }) => {
     setReservationsError(null);
 
     listReservations({ date }, abortController.signal)
-      .then(setReservations)
+      .then((data) => {
+        setReservations(data);
+        setLoading(false);
+      })
       .catch(setReservationsError);
 
     return () => abortController.abort();
@@ -22,19 +26,26 @@ const ReservationList = ({ date }) => {
   console.log(reservations, date, ' reservation list');
 
   let content =
-    reservations.length === 0 ? (
+    reservations.length === 0 && loading === false ? (
       <div>
         <p>There are no reservations</p>
       </div>
     ) : (
       <ul>
         {reservations.map((reservation) => (
-          <ReservationItem reservation={reservation} />
+          <ReservationItem
+            reservation={reservation}
+            key={reservation.reservation_id}
+          />
         ))}
       </ul>
     );
 
-  return (
+  return loading ? (
+    <div>
+      <p>loading...</p>
+    </div>
+  ) : (
     <div>
       {content}
       <ErrorAlert error={reservationsError} />
