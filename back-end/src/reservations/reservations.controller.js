@@ -64,7 +64,7 @@ const duringBusinessHours = (time) => {
 
 const isDateNotTuesday = (date) => {
   const reservation_day = new Date(date);
-  return date.getUTCDay() !== 2;
+  return reservation_day.getUTCDay() !== 2;
 };
 
 const validateValues = (req, res, next) => {
@@ -99,7 +99,7 @@ const validateValues = (req, res, next) => {
     });
   }
 
-  if (!dateNotInPast(reservation_date)) {
+  if (!dateNotInPast(reservation_date, reservation_time)) {
     return next({
       status: 400,
       message:

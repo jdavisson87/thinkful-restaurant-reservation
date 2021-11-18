@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { today, formatAsTime } from '../utils/date-time';
+import { createReservation } from '../utils/api';
+import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
 const ReservationForm = () => {
   const initialForm = {
@@ -15,14 +17,25 @@ const ReservationForm = () => {
   const history = useHistory();
 
   const [formData, setFormData] = useState({ ...initialForm });
+  const [formError, setFormError] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData, ' reservation form');
+    const abortController = new AbortController();
+    setFormError(null);
+    createReservation(formData, abortController.signal)
+      .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
+      .catch(setFormError);
+
+    return () => abortController.abort();
   };
 
   const handleChange = ({ target }) => {
     let value = target.value;
+    if (target.name === 'people' && typeof value === 'string') {
+      value = +value;
+    }
     setFormData({ ...formData, [target.name]: value });
   };
 
@@ -127,6 +140,7 @@ const ReservationForm = () => {
             Submit
           </button>
         </div>
+        <ErrorAlert error={formError} />
       </form>
     </div>
   );
