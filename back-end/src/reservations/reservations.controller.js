@@ -38,8 +38,90 @@ const validateProperties = (req, res, next) => {
   next();
 };
 
+const dateFormat = /^\d\d\d\d-\d\d-\d\d$/;
+const timeFormat = /^\d\d:\d\d$/;
+
+const timeIsValid = (timeString) => {
+  return timeString.match(timeFormat)?.[0];
+};
+
+const dateFormatIsValid = (dateString) => {
+  return dateString.match(dateFormat)?.[0];
+};
+
+const dateNotInPast = (dateString, timeString) => {
+  const now = new Date();
+  // creating a date object using a string like:  '2021-10-08T01:21:00'
+  const reservationDate = new Date(dateString + 'T' + timeString);
+  return reservationDate >= now;
+};
+
+const duringBusinessHours = (time) => {
+  const open = '10:30';
+  const close = '21:30';
+  return time <= close && time >= open;
+};
+
+const isDateNotTuesday = (date) => {
+  const reservation_day = new Date(date);
+  return date.getUTCDay() !== 2;
+};
+
 const validateValues = (req, res, next) => {
-  const { reservation_date, reservation_time, people } = req.body.data;
+  const {
+    reservation_date,
+    reservation_time,
+    people,
+    status = 'booked',
+  } = req.body.data;
+  if (!Number.isInteger(people) || people < 1) {
+    return next({
+      status: 400,
+      message: 'Number of people must be greater than 0 and be a whole number',
+    });
+  }
+  if (status !== 'booked') {
+    return next({
+      status: 400,
+      message: 'A status of "seated" or "finished" are not valid upon creation',
+    });
+  }
+  if (!timeIsValid(reservation_time)) {
+    return next({
+      status: 400,
+      message: 'reservation time must be in HH:MM:SS (or HH:MM) format',
+    });
+  }
+  if (!dateFormatIsValid(reservation_date)) {
+    return next({
+      status: 400,
+      message: 'reservation date must be in YYYY-MM-DD format',
+    });
+  }
+
+  if (!dateNotInPast(reservation_date)) {
+    return next({
+      status: 400,
+      message:
+        'You are attempting to submit a reservation that has past its date.  Only future reservations allowed.',
+    });
+  }
+
+  if (!duringBusinessHours(reservation_time)) {
+    return next({
+      status: 400,
+      message:
+        'You are attempting to make a reservation while we are closed.  Reservation times must be in between 10:30 AM and 9:30 PM',
+    });
+  }
+
+  if (!isDateNotTuesday(reservation_date)) {
+    return next({
+      status: 400,
+      message: 'We are closed on Tuesdays',
+    });
+  }
+
   next();
 };
 
