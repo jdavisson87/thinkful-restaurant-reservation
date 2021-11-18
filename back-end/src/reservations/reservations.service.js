@@ -19,7 +19,15 @@ const read = (id) => {
     .then((result) => result[0]);
 };
 
+const create = (reservation) => {
+  return knex('reservations')
+    .insert(reservation)
+    .return('*')
+    .then((result) => result[0]);
+};
+
 module.exports = {
   searchByDate,
   read,
+  create,
 };

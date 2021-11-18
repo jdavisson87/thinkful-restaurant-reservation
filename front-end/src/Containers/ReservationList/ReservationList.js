@@ -26,7 +26,11 @@ const ReservationList = ({ date }) => {
   console.log(reservations, date, ' reservation list');
 
   let content =
-    reservations.length === 0 && loading === false ? (
+    loading === true ? (
+      <div>
+        <p>loading...</p>
+      </div>
+    ) : reservations.length === 0 ? (
       <div>
         <p>There are no reservations</p>
       </div>
@@ -41,11 +45,7 @@ const ReservationList = ({ date }) => {
       </ul>
     );
 
-  return loading ? (
-    <div>
-      <p>loading...</p>
-    </div>
-  ) : (
+  return (
     <div>
       {content}
       <ErrorAlert error={reservationsError} />
