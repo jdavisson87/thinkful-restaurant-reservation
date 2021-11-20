@@ -1,8 +1,16 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const ReservationItem = ({ reservation }) => {
-  const { first_name, last_name, mobile_number, people, reservation_time } =
-    reservation;
+  const {
+    first_name,
+    last_name,
+    mobile_number,
+    people,
+    reservation_time,
+    reservation_id,
+  } = reservation;
+  const history = useHistory();
 
   return (
     <li className="card m-1">
@@ -17,7 +25,14 @@ const ReservationItem = ({ reservation }) => {
         <div className="row">
           <span className="col-6">Reservation Time: {reservation_time}</span>
           <div className="d-flex col-6 justify-content-center">
-            <button className="btn btn-success m-1">Edit</button>
+            <button
+              className="btn btn-success m-1"
+              onClick={() =>
+                history.push(`/reservations/${reservation_id}/edit`)
+              }
+            >
+              Edit
+            </button>
             <button className="btn btn-info m-1">Seat</button>
           </div>
         </div>

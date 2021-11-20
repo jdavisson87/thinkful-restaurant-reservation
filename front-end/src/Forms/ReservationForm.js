@@ -6,7 +6,7 @@ import { createReservation, getReservation } from '../utils/api';
 import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
 const ReservationForm = () => {
-  const { reservation_id } = useParams();
+  const { reservationId } = useParams();
   const history = useHistory();
 
   const initialForm = {
@@ -22,15 +22,15 @@ const ReservationForm = () => {
   const [formError, setFormError] = useState(null);
 
   useEffect(() => {
-    if (!reservation_id) return;
+    if (!reservationId) return;
     const abortController = new AbortController();
     setFormError(null);
-    getReservation(reservation_id, abortController.signal)
+    getReservation(reservationId, abortController.signal)
       .then(setFormData)
       .catch(setFormError);
 
     return () => abortController.abort();
-  }, [reservation_id]);
+  }, [reservationId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -67,7 +67,6 @@ const ReservationForm = () => {
             className="form-control"
             id="first_name"
             name="first_name"
-            placeholder="First Name"
             onChange={handleChange}
             value={formData.first_name}
             required={true}

@@ -134,7 +134,7 @@ const create = async (req, res) => {
  *  Reading specific reservations
  */
 
-const reservationExists = (req, res, next) => {
+const reservationExists = async (req, res, next) => {
   const { reservationId } = req.params;
   const reservation = await service.read(reservationId);
   if (reservation) {
@@ -155,5 +155,5 @@ const read = (req, res) => {
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [validateProperties, validateValues, asyncErrorBoundary(create)],
-  read: [reservationExists, asyncErrorBoundary(read)],
+  read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
 };
