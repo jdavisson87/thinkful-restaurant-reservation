@@ -32,7 +32,7 @@ const ReservationList = ({ date }) => {
       </div>
     ) : reservations.length === 0 ? (
       <div>
-        <p>There are no reservations</p>
+        <p>There are no reservations for this date</p>
       </div>
     ) : (
       <ul>

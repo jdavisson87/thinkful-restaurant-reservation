@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { today, formatAsTime } from '../utils/date-time';
-import { createReservation } from '../utils/api';
+import { createReservation, getReservation } from '../utils/api';
 import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
 const ReservationForm = () => {
+  const { reservation_id } = useParams();
+  const history = useHistory();
+
   const initialForm = {
     first_name: '',
     last_name: '',
@@ -14,10 +18,19 @@ const ReservationForm = () => {
     people: 1,
   };
 
-  const history = useHistory();
-
   const [formData, setFormData] = useState({ ...initialForm });
   const [formError, setFormError] = useState(null);
+
+  useEffect(() => {
+    if (!reservation_id) return;
+    const abortController = new AbortController();
+    setFormError(null);
+    getReservation(reservation_id, abortController.signal)
+      .then(setFormData)
+      .catch(setFormError);
+
+    return () => abortController.abort();
+  }, [reservation_id]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

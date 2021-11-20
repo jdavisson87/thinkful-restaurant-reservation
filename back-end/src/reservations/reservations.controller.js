@@ -130,7 +130,30 @@ const create = async (req, res) => {
   res.status(201).json({ data: reservation });
 };
 
+/*
+ *  Reading specific reservations
+ */
+
+const reservationExists = (req, res, next) => {
+  const { reservationId } = req.params;
+  const reservation = await service.read(reservationId);
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({
+    status: 404,
+    message: `Reservation with id: ${reservationId} does not exist`,
+  });
+};
+
+const read = (req, res) => {
+  const { reservation } = res.locals;
+  res.json({ data: reservation });
+};
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [validateProperties, validateValues, asyncErrorBoundary(create)],
+  read: [reservationExists, asyncErrorBoundary(read)],
 };
