@@ -24,8 +24,18 @@ const create = (reservation) => {
     .then((result) => result[0]);
 };
 
+// updates reservation
+
+const update = (reservation_id, updatedReservation) => {
+  return knex('reservations')
+    .where({ reservation_id })
+    .update(updatedReservation, '*')
+    .then((result) => result[0]);
+};
+
 module.exports = {
   searchByDate,
   read,
   create,
+  update,
 };

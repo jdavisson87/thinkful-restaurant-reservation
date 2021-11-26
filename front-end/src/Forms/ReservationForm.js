@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { today, formatAsTime } from '../utils/date-time';
-import { createReservation, getReservation } from '../utils/api';
+import {
+  createReservation,
+  getReservation,
+  updateReservation,
+} from '../utils/api';
 import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
 const ReservationForm = () => {
@@ -37,9 +41,24 @@ const ReservationForm = () => {
     console.log(formData, ' reservation form');
     const abortController = new AbortController();
     setFormError(null);
-    createReservation(formData, abortController.signal)
-      .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
-      .catch(setFormError);
+    // if new reservation, call createReservation. if edit, need updateReservation
+    if (!reservationId) {
+      createReservation(formData, abortController.signal)
+        .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
+        .catch(setFormError);
+    } else {
+      const editReservation = {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        people: formData.people,
+        mobile_number: formData.mobile_number,
+        reservation_date: formData.reservation_date,
+        reservation_time: formData.reservation_time,
+      };
+      updateReservation(reservationId, editReservation, abortController.signal)
+        .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
+        .catch(setFormError);
+    }
 
     return () => abortController.abort();
   };

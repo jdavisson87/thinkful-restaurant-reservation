@@ -22,7 +22,41 @@ const VALID_PROPERTIES = [
   'people',
   'reservation_date',
   'reservation_time',
+  'status',
+  'reservation_id',
+  'created_at',
+  'updated_at',
 ];
+
+const REQ_PROPERTIES = [
+  'first_name',
+  'last_name',
+  'mobile_number',
+  'reservation_date',
+  'reservation_time',
+  'people',
+];
+
+function hasProperties(...properties) {
+  return function (req, res, next) {
+    const { data = {} } = req.body;
+
+    try {
+      properties.forEach((property) => {
+        if (!data[property]) {
+          const error = new Error(`A '${property}' property is required.`);
+          error.status = 400;
+          throw error;
+        }
+      });
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+const hasRequiredProperties = hasProperties(...REQ_PROPERTIES);
 
 const validateProperties = (req, res, next) => {
   const { data = {} } = req.body;
@@ -38,16 +72,27 @@ const validateProperties = (req, res, next) => {
   next();
 };
 
+const validUpdateStatus = (req, res, next) => {
+  const { status } = res.locals.reservation;
+  if (status !== 'booked') {
+    return next({
+      status: 400,
+      message: 'You can only edit reservations that are "booked".',
+    });
+  }
+  next();
+};
+
 const dateFormat = /^\d\d\d\d-\d\d-\d\d$/;
-const timeFormat = /^\d\d:\d\d$/;
+const timeFormat = /^\d\d:\d\d:\d\d$/;
 
-const timeIsValid = (timeString) => {
+function timeIsValid(timeString) {
   return timeString.match(timeFormat)?.[0];
-};
+}
 
-const dateFormatIsValid = (dateString) => {
+function dateFormatIsValid(dateString) {
   return dateString.match(dateFormat)?.[0];
-};
+}
 
 const dateNotInPast = (dateString, timeString) => {
   const now = new Date();
@@ -67,29 +112,26 @@ const isDateNotTuesday = (date) => {
   return reservation_day.getUTCDay() !== 2;
 };
 
+function statusIsBookedOrNull(status) {
+  if (!status || status === 'booked') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 const validateValues = (req, res, next) => {
-  const {
-    reservation_date,
-    reservation_time,
-    people,
-    status = 'booked',
-  } = req.body.data;
+  const { reservation_date, reservation_time, people } = req.body.data;
   if (!Number.isInteger(people) || people < 1) {
     return next({
       status: 400,
       message: 'Number of people must be greater than 0 and be a whole number',
     });
   }
-  if (status !== 'booked') {
-    return next({
-      status: 400,
-      message: 'A status of "seated" or "finished" are not valid upon creation',
-    });
-  }
   if (!timeIsValid(reservation_time)) {
     return next({
       status: 400,
-      message: 'reservation time must be in HH:MM:SS (or HH:MM) format',
+      message: `reservation time must be in HH:MM:SS (or HH:MM) format ${reservation_time}`,
     });
   }
   if (!dateFormatIsValid(reservation_date)) {
@@ -119,6 +161,12 @@ const validateValues = (req, res, next) => {
     return next({
       status: 400,
       message: 'We are closed on Tuesdays',
+    });
+  }
+  if (!statusIsBookedOrNull(req.body.data?.status)) {
+    return next({
+      status: 400,
+      message: 'seated and finished are not valid statuses on creation',
     });
   }
 
@@ -152,8 +200,34 @@ const read = (req, res) => {
   res.json({ data: reservation });
 };
 
+const update = async (req, res) => {
+  const { reservation_id } = res.locals;
+  const newReservation = req.body.data;
+  const oldReservation = res.locals.reservation;
+  const updatedInformation = { ...oldReservation, ...newReservation };
+
+  let updatedReservation = await service.update(
+    reservation_id,
+    updatedInformation
+  );
+  res.status(200).json({ data: updatedReservation });
+};
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
-  create: [validateProperties, validateValues, asyncErrorBoundary(create)],
+  create: [
+    validateProperties,
+    hasRequiredProperties,
+    validateValues,
+    asyncErrorBoundary(create),
+  ],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    validateProperties,
+    hasRequiredProperties,
+    validateValues,
+    validUpdateStatus,
+    asyncErrorBoundary(update),
+  ],
 };
