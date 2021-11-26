@@ -12,7 +12,6 @@ import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 const ReservationForm = () => {
   const { reservationId } = useParams();
   const history = useHistory();
-  console.log(reservationId, 'reservation form id');
 
   const initialForm = {
     first_name: '',
@@ -57,6 +56,8 @@ const ReservationForm = () => {
         mobile_number: formData.mobile_number,
         reservation_date: formData.reservation_date,
         reservation_time: formData.reservation_time,
+        status: 'booked',
+        reservation_id: reservationId,
       };
       updateReservation(reservationId, editReservation, abortController.signal)
         .then(() =>

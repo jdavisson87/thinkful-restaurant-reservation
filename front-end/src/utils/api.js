@@ -89,6 +89,7 @@ export const getReservation = async (id, signal) => {
 };
 
 export const updateReservation = async (id, updatedInformation, signal) => {
+  // console.log('update api call ', updatedInformation);
   const url = new URL(`${API_BASE_URL}/reservations/${id}`);
   const options = {
     method: 'PUT',

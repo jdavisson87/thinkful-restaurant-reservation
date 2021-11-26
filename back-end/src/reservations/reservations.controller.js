@@ -201,7 +201,7 @@ const read = (req, res) => {
 };
 
 const update = async (req, res) => {
-  const { reservation_id } = res.locals;
+  const { reservation_id } = res.locals.reservation;
   const newReservation = req.body.data;
   const oldReservation = res.locals.reservation;
   const updatedInformation = { ...oldReservation, ...newReservation };
