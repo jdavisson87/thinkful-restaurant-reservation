@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { today, formatAsTime } from '../utils/date-time';
+import { today, formatAsTime, formatAsDate } from '../utils/date-time';
 import {
   createReservation,
   getReservation,
@@ -57,8 +57,8 @@ const ReservationForm = () => {
         last_name: formData.last_name,
         people: formData.people,
         mobile_number: formData.mobile_number,
-        reservation_date: formData.reservation_date,
-        reservation_time: formData.reservation_time,
+        reservation_date: formatAsDate(formData.reservation_date),
+        reservation_time: formatAsTime(formData.reservation_time),
         status: 'booked',
         reservation_id: reservationId,
       };

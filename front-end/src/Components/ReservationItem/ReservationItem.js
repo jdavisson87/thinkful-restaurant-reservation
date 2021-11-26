@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { formatAsTime } from '../../utils/date-time';
 
 const ReservationItem = ({ reservation }) => {
   const {
@@ -23,7 +24,9 @@ const ReservationItem = ({ reservation }) => {
           <span className="col-6 text-center"> Size: {people}</span>
         </div>
         <div className="row">
-          <span className="col-6">Reservation Time: {reservation_time}</span>
+          <span className="col-6">
+            Reservation Time: {formatAsTime(reservation_time)}
+          </span>
           <div className="d-flex col-6 justify-content-center">
             <button
               className="btn btn-success m-1"

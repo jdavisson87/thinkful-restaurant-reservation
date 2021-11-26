@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { getTable, postTable, deleteTable } from '../utils/api';
+import { getTable, postTable, deleteTable, updateTable } from '../utils/api';
 import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
 const TableForm = () => {
@@ -58,9 +58,15 @@ const TableForm = () => {
 
     const abortController = new AbortController();
     setTableError(null);
-    postTable(newTable, abortController.signal)
-      .then(() => history.push('/dashboard'))
-      .catch(setTableError);
+    if (table_id) {
+      updateTable(table_id, newTable, abortController.signal)
+        .then(() => history.push('/dashboard'))
+        .catch(setTableError);
+    } else {
+      postTable(newTable, abortController.signal)
+        .then(() => history.push('/dashboard'))
+        .catch(setTableError);
+    }
     return () => abortController.abort();
   };
 

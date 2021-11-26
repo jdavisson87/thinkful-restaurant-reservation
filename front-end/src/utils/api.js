@@ -132,6 +132,17 @@ export const postTable = async (tableDetails, signal) => {
   return await fetchJson(url, options);
 };
 
+export const updateTable = async (id, updatedInformation, signal) => {
+  const url = new URL(`${API_BASE_URL}/tables/${id}/edit`);
+  const options = {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ data: updatedInformation }),
+    signal,
+  };
+  return await fetchJson(url, options);
+};
+
 export const deleteTable = async (tableId, signal) => {
   const url = new URL(`${API_BASE_URL}/tables/${tableId}/edit`);
   const options = {
