@@ -5,7 +5,7 @@ import ReservationForm from '../../Forms/ReservationForm';
 const ReservationCtr = () => {
   const { reservationId } = useParams();
   const [title, setTitle] = useState('New');
-  console.log(reservationId, 'this one');
+
   useEffect(() => {
     reservationId ? setTitle('Edit') : setTitle('New');
   }, [reservationId]);
