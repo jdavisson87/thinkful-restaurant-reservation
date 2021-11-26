@@ -5,7 +5,7 @@ import TableForm from '../../Forms/TableForm';
 const NewTableCtr = () => {
   const { table_id } = useParams();
   const [title, setTitle] = useState('');
-  console.log(table_id);
+
   useEffect(() => {
     table_id ? setTitle(`Edit #${table_id}`) : setTitle('New');
   }, [table_id]);
