@@ -12,6 +12,7 @@ import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 const ReservationForm = () => {
   const { reservationId } = useParams();
   const history = useHistory();
+  console.log(reservationId, 'reservation form id');
 
   const initialForm = {
     first_name: '',
@@ -26,14 +27,16 @@ const ReservationForm = () => {
   const [formError, setFormError] = useState(null);
 
   useEffect(() => {
-    if (!reservationId) return;
-    const abortController = new AbortController();
-    setFormError(null);
-    getReservation(reservationId, abortController.signal)
-      .then(setFormData)
-      .catch(setFormError);
-
-    return () => abortController.abort();
+    if (reservationId) {
+      const abortController = new AbortController();
+      setFormError(null);
+      getReservation(reservationId, abortController.signal)
+        .then(setFormData)
+        .catch(setFormError);
+      return () => abortController.abort();
+    } else {
+      setFormData({ ...initialForm });
+    }
   }, [reservationId]);
 
   const handleSubmit = (event) => {
@@ -56,7 +59,9 @@ const ReservationForm = () => {
         reservation_time: formData.reservation_time,
       };
       updateReservation(reservationId, editReservation, abortController.signal)
-        .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
+        .then(() =>
+          history.push(`/dashboard?date=${formData.reservation_date}`)
+        )
         .catch(setFormError);
     }
 
