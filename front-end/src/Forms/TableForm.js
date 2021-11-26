@@ -17,15 +17,17 @@ const TableForm = () => {
   const [newTable, setNewTable] = useState(initialNewTable);
 
   useEffect(() => {
-    if (!table_id) return;
-    const abortController = new AbortController();
-    setTableError(null);
+    if (table_id) {
+      const abortController = new AbortController();
+      setTableError(null);
 
-    getTable(table_id, abortController.signal)
-      .then(setNewTable)
-      .catch(setTableError);
-
-    return () => abortController.abort();
+      getTable(table_id, abortController.signal)
+        .then(setNewTable)
+        .catch(setTableError);
+      return () => abortController.abort();
+    } else {
+      setNewTable(initialNewTable);
+    }
   }, [table_id]);
 
   const handleChange = ({ target }) => {
