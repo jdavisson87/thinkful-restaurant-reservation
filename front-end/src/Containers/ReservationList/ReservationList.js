@@ -23,7 +23,6 @@ const ReservationList = ({ date }) => {
   };
 
   useEffect(loadReservations, [date]);
-  console.log(reservations, date, ' reservation list');
 
   let content =
     loading === true ? (

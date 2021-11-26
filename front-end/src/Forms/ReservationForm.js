@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { today, formatAsTime } from '../utils/date-time';
@@ -13,14 +13,16 @@ const ReservationForm = () => {
   const { reservationId } = useParams();
   const history = useHistory();
 
-  const initialForm = {
-    first_name: '',
-    last_name: '',
-    mobile_number: '',
-    reservation_date: today(),
-    reservation_time: formatAsTime(new Date().toTimeString()),
-    people: 1,
-  };
+  const initialForm = useMemo(() => {
+    return {
+      first_name: '',
+      last_name: '',
+      mobile_number: '',
+      reservation_date: today(),
+      reservation_time: formatAsTime(new Date().toTimeString()),
+      people: 1,
+    };
+  }, []);
 
   const [formData, setFormData] = useState({ ...initialForm });
   const [formError, setFormError] = useState(null);
@@ -36,7 +38,7 @@ const ReservationForm = () => {
     } else {
       setFormData({ ...initialForm });
     }
-  }, [reservationId]);
+  }, [reservationId, initialForm]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

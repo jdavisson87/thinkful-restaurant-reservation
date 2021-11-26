@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { getTable, postTable, deleteTable } from '../utils/api';
@@ -9,10 +9,12 @@ const TableForm = () => {
   const [tableError, setTableError] = useState(null);
   const history = useHistory();
 
-  const initialNewTable = {
-    table_name: '',
-    capacity: 1,
-  };
+  const initialNewTable = useMemo(() => {
+    return {
+      table_name: '',
+      capacity: 1,
+    };
+  }, []);
 
   const [newTable, setNewTable] = useState(initialNewTable);
 
@@ -28,7 +30,7 @@ const TableForm = () => {
     } else {
       setNewTable(initialNewTable);
     }
-  }, [table_id]);
+  }, [table_id, initialNewTable]);
 
   const handleChange = ({ target }) => {
     let value = target.value;
