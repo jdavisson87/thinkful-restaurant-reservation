@@ -89,6 +89,7 @@ const ReservationForm = () => {
           <input
             type="text"
             className="form-control"
+            placeholder="First Name"
             id="first_name"
             name="first_name"
             onChange={handleChange}

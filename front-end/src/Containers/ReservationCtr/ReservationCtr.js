@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import ReservationForm from '../../Forms/ReservationForm';
 
 const ReservationCtr = () => {
-  const { reservation_id } = useParams();
-  const content = reservation_id ? (
-    <h1 className="m-3">New Reservation</h1>
-  ) : (
-    <h1 className="m-3">Edit Reservation</h1>
-  );
+  const { reservationId } = useParams();
+  const [title, setTitle] = useState('New');
+  console.log(reservationId, 'this one');
+  useEffect(() => {
+    reservationId ? setTitle('Edit') : setTitle('New');
+  }, [reservationId]);
+
   return (
     <div>
-      {content}
+      <h1 className="m-3">{title} Reservation</h1>
       <ReservationForm />
     </div>
   );
