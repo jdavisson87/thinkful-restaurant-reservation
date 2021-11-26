@@ -89,12 +89,21 @@ export const getReservation = async (id, signal) => {
 };
 
 export const updateReservation = async (id, updatedInformation, signal) => {
-  // console.log('update api call ', updatedInformation);
   const url = new URL(`${API_BASE_URL}/reservations/${id}`);
   const options = {
     method: 'PUT',
     headers,
     body: JSON.stringify({ data: updatedInformation }),
+    signal,
+  };
+  return await fetchJson(url, options);
+};
+
+export const deleteReservation = async (id, signal) => {
+  const url = new URL(`${API_BASE_URL}/reservations/${id}`);
+  const options = {
+    method: 'DELETE',
+    headers,
     signal,
   };
   return await fetchJson(url, options);

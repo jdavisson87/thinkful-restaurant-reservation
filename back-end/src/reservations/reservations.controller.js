@@ -84,7 +84,7 @@ const validUpdateStatus = (req, res, next) => {
 };
 
 const dateFormat = /^\d\d\d\d-\d\d-\d\d$/;
-const timeFormat = /^\d\d:\d\d:\d\d$/;
+const timeFormat = /^\d\d:\d\d$/;
 
 function timeIsValid(timeString) {
   return timeString.match(timeFormat)?.[0];
@@ -213,6 +213,13 @@ const update = async (req, res) => {
   res.status(200).json({ data: updatedReservation });
 };
 
+const destroy = async (req, res, next) => {
+  service
+    .delete(res.locals.reservation.reservation_id)
+    .then(() => res.sendStatus(204))
+    .catch(next);
+};
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
@@ -230,4 +237,5 @@ module.exports = {
     validUpdateStatus,
     asyncErrorBoundary(update),
   ],
+  delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
 };

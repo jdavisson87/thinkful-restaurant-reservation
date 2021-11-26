@@ -6,6 +6,7 @@ import {
   createReservation,
   getReservation,
   updateReservation,
+  deleteReservation,
 } from '../utils/api';
 import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 
@@ -86,7 +87,14 @@ const ReservationForm = () => {
 
   const handleDelete = (event) => {
     event.preventDefault();
-    console.log('delete');
+    deleteReservation(reservationId)
+      .then(() => {
+        console.log('deleted');
+      })
+      .then(() => {
+        history.push('/dashboard');
+      })
+      .catch(setFormError);
   };
 
   const deleteBtn = (

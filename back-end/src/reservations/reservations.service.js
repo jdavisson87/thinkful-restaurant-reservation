@@ -33,9 +33,14 @@ const update = (reservation_id, updatedReservation) => {
     .then((result) => result[0]);
 };
 
+const destroy = (reservation_id) => {
+  return knex('reservations').where({ reservation_id }).del();
+};
+
 module.exports = {
   searchByDate,
   read,
   create,
   update,
+  delete: destroy,
 };
