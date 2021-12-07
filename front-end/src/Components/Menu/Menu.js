@@ -21,7 +21,7 @@ const Menu = () => {
           to="/"
         >
           <div className="sidebar-brand-text mx-0">
-            <span>Periodic Table</span>
+            <span>Periodic Tables</span>
             <br />
             <span> Reservation System</span>
           </div>
