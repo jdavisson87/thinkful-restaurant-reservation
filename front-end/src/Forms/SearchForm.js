@@ -1,17 +1,29 @@
 import React from 'react';
 
 const SearchForm = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Search Form Submit');
+  };
+
   return (
     <div className="d-flex justify-content-center justify-content-md-start">
-      <form className="form-group text-center text-md-left">
-        <label htmlFor="mobile_number">Search by Mobile Number</label>
+      <form
+        className="form-group text-center text-md-left"
+        onSubmit={handleSubmit}
+      >
+        <label htmlFor="mobile_number">
+          <h5 className="mx-0 my-1">Search by Mobile Number</h5>
+        </label>
+        <p className="mx-0 my-1">Please format your number with dashes</p>
 
         <div className="input-group mb-3">
           <input
-            type="phone"
+            type="tel"
             name="mobile_number"
             id="mobile_number"
             placeholder="XXX - XXX - XXXX"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             required={true}
           />
           <div className="input-group-append">

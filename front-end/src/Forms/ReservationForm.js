@@ -133,7 +133,9 @@ const ReservationForm = () => {
           />
         </div>
         <div className="form-group col-md-4">
-          <label htmlFor="mobile">Mobile Number:</label>
+          <label htmlFor="mobile">
+            Mobile Number (Please format your number with dashes):
+          </label>
           <input
             type="tel"
             className="form-control"

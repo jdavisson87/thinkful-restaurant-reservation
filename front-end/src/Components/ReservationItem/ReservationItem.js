@@ -13,6 +13,11 @@ const ReservationItem = ({ reservation }) => {
   } = reservation;
   const history = useHistory();
 
+  const handleSeat = (e) => {
+    e.preventDefault();
+    console.log('seat', reservation_id);
+  };
+
   return (
     <li className="card m-1">
       <h5 className="card-header font-weight-bold">
@@ -36,7 +41,9 @@ const ReservationItem = ({ reservation }) => {
             >
               Edit
             </button>
-            <button className="btn btn-info m-1">Seat</button>
+            <button className="btn btn-info m-1" onClick={handleSeat}>
+              Seat
+            </button>
           </div>
         </div>
       </div>
