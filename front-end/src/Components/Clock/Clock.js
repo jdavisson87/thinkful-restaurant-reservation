@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { formatAsTime } from '../../utils/date-time';
+import { formatAsTime, printableTime } from '../../utils/date-time';
 
 const Clock = () => {
-  const [time, setTime] = useState(new Date().toTimeString());
-  const timeFormatted = formatAsTime(time);
+  const [time, setTime] = useState();
+  const [loading, setLoading] = useState(true);
 
   const getTime = () => {
-    const timeStr = new Date().toTimeString();
-    setTime(timeStr);
+    const newTime = printableTime(formatAsTime(new Date().toTimeString()));
+    setTime(newTime);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const Clock = () => {
 
   return (
     <div>
-      <h5>{timeFormatted}</h5>
+      <h5>{loading ? 'Loading Clock...' : time}</h5>
     </div>
   );
 };
