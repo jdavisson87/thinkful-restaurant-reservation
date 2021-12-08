@@ -1,4 +1,15 @@
 .side-bar {
   background-color: #1f3541;
   min-width: 250px;
+  height: 100vh;
+}
+
+.layout {
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 767px) {
+  .side-bar {
+    height: 268px;
+  }
 }
