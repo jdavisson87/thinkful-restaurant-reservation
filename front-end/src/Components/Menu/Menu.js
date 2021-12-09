@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-
+import React from 'react';
+import MenuItem from '../MenuItem/MenuItem';
 import { Link } from 'react-router-dom';
-import './Menu.css';
 
 /**
  * Defines the menu for this application.
@@ -10,8 +9,6 @@ import './Menu.css';
  */
 
 const Menu = () => {
-  const [toggle, setToggle] = useState(true);
-
   // if screen size decreases, need to toggle back to true
   return (
     <nav className="navbar navbar-dark align-items-start p-0 m-2">
@@ -21,50 +18,23 @@ const Menu = () => {
           to="/"
         >
           <div className="sidebar-brand-text text-center mx-0">
-            <h3 className="m-0 p-0 text-wrap">
+            <h1 className="m-0 p-0 text-wrap">
               Periodic Tables Reservation System
-            </h3>
+            </h1>
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
-        {toggle && (
-          <ul className="nav navbar-nav text-light" id="accordionSidebar">
-            <li className="nav-item">
-              <Link className="nav-link" to="/dashboard">
-                <span className="oi oi-dashboard" />
-                &nbsp;Dashboard
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/search">
-                <span className="oi oi-magnifying-glass" />
-                &nbsp;Search
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/reservations/new">
-                <span className="oi oi-plus" />
-                &nbsp;New Reservation
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/tables/new">
-                <span className="oi oi-layers" />
-                &nbsp;New Table
-              </Link>
-            </li>
-          </ul>
-        )}
-        <div className="text-center d-none d-md-inline my-3">
-          <button
-            className="btn rounded-circle border-0 plus-btn"
-            id="sidebarToggle"
-            type="button"
-            onClick={() => setToggle(!toggle)}
-          >
-            <span className="oi oi-plus" />
-          </button>
-        </div>
+
+        <ul className="nav navbar-nav text-light" id="accordionSidebar">
+          <MenuItem address="/dashboard" design="dashboard" name="Dashboard" />
+          <MenuItem address="/search" design="magnifying-glass" name="Search" />
+          <MenuItem
+            address="/reservations/new"
+            design="plus"
+            name="New Reservation"
+          />
+          <MenuItem address="/tables/new" design="layers" name="New Table" />
+        </ul>
       </div>
     </nav>
   );
