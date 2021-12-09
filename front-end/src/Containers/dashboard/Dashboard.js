@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from '../../Components/DatePicker/DatePicker';
 import TableList from '../TableList/TableList';
 import useQuery from '../../utils/useQuery';
+import { listReservations } from '../../utils/api';
 import ReservationList from '../ReservationList/ReservationList';
 
 /**
@@ -12,17 +13,50 @@ import ReservationList from '../ReservationList/ReservationList';
  */
 
 const Dashboard = ({ date }) => {
+  const [loading, setLoading] = useState(true);
+  const [reservations, setReservations] = useState([]);
+  const [reservationsError, setReservationsError] = useState(null);
+
   const dateUrl = useQuery().get('date');
   if (dateUrl) {
     date = dateUrl;
   }
+
+  const loadReservations = () => {
+    const abortController = new AbortController();
+    setReservationsError(null);
+
+    listReservations({ date }, abortController.signal)
+      .then((data) => {
+        setReservations(data);
+        setLoading(false);
+      })
+      .catch(setReservationsError);
+
+    return () => abortController.abort();
+  };
+
+  useEffect(loadReservations, [date]);
+
+  const whileLoading = (
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  );
 
   return (
     <main>
       <div className="d-md-flex flex-column mb-3">
         <DatePicker date={date} />
         <h3 className="mb-0">Reservations for date</h3>
-        <ReservationList date={date} />
+        {loading ? (
+          whileLoading
+        ) : (
+          <ReservationList
+            reservations={reservations}
+            error={reservationsError}
+          />
+        )}
         <h3 className="mb-0">Table List</h3>
         <TableList />
       </div>
