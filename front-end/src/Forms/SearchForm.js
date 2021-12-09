@@ -1,8 +1,9 @@
 import React from 'react';
 
-const SearchForm = () => {
+const SearchForm = ({ setSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSearch(true);
     console.log('Search Form Submit');
   };
 
