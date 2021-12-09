@@ -11,6 +11,12 @@ const Clock = () => {
     setLoading(false);
   };
 
+  const whileLoading = (
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  );
+
   useEffect(() => {
     const interval = setInterval(() => {
       getTime();
@@ -20,7 +26,7 @@ const Clock = () => {
 
   return (
     <div>
-      <h5>{loading ? 'Loading Clock...' : time}</h5>
+      <h4>{loading ? whileLoading : time}</h4>
     </div>
   );
 };
