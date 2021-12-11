@@ -10,7 +10,7 @@ const ReservationList = ({ reservations, error, searchType }) => {
         <p>There are no reservations for this {searchType}</p>
       </div>
     ) : (
-      <ul>
+      <ul className="m-0 p-0">
         {reservations.map((reservation) => (
           <ReservationItem
             reservation={reservation}
