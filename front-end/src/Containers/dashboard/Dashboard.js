@@ -55,6 +55,7 @@ const Dashboard = ({ date }) => {
           <ReservationList
             reservations={reservations}
             error={reservationsError}
+            searchType="date"
           />
         )}
         <h3 className="mb-0">Table List</h3>

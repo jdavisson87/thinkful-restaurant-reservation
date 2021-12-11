@@ -11,13 +11,18 @@ const SearchCtr = () => {
     <div>
       <div className="ml-5">
         <h1 className="d-md-flex text-center mt-3">Search</h1>
-        <SearchForm setSearch={setSearched} />
+        <SearchForm
+          setSearch={setSearched}
+          setReservations={setReservations}
+          setErrors={setReservationsError}
+        />
       </div>
       <div className="ml-5">
         {searched ? (
           <ReservationList
             reservations={reservations}
             error={reservationsError}
+            searchType="mobile number"
           />
         ) : (
           <div>

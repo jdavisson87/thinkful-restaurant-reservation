@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { listReservationsByNumber } from '../utils/api';
 
-const SearchForm = ({ setSearch }) => {
+const SearchForm = ({ setSearch, setReservations, setErrors }) => {
+  const [mobile, setMobile] = useState('');
+
+  const getReservations = () => {
+    const abortController = new AbortController();
+    setErrors(null);
+    setReservations([]);
+    listReservationsByNumber(mobile, abortController.signal)
+      .then((data) => setReservations(data))
+      .then(console.log(mobile))
+      .catch(setErrors);
+
+    setSearch(true);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSearch(true);
+    getReservations();
     console.log('Search Form Submit');
+  };
+
+  const handleChange = ({ target }) => {
+    setMobile(target.value);
   };
 
   return (
@@ -26,6 +45,7 @@ const SearchForm = ({ setSearch }) => {
             placeholder="XXX - XXX - XXXX"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             required={true}
+            onChange={handleChange}
           />
           <div className="input-group-append">
             <button type="submit" className="btn btn-primary">

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ReservationItem from '../../Components/ReservationItem/ReservationItem';
 
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
-const ReservationList = ({ reservations, error }) => {
+const ReservationList = ({ reservations, error, searchType }) => {
   let content =
     reservations.length === 0 ? (
       <div>
-        <p>There are no reservations for this date</p>
+        <p>There are no reservations for this {searchType}</p>
       </div>
     ) : (
       <ul>

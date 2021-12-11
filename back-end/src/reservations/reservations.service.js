@@ -9,6 +9,11 @@ const searchByDate = (date) => {
     .orderBy('reservation_time');
 };
 
+// returns reservations for mobile numbers
+const searchByNumber = (mobile) => {
+  return knex('reservations').select('*').where({ mobile_number: mobile });
+};
+
 // returns a reservation for the specified id
 const read = (id) => {
   return knex('reservations')
@@ -39,6 +44,7 @@ const destroy = (reservation_id) => {
 
 module.exports = {
   searchByDate,
+  searchByNumber,
   read,
   create,
   update,

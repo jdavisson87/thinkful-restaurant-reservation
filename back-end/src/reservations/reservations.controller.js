@@ -4,10 +4,24 @@ const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 /**
  * List handler for reservation resources
  */
-const list = async (req, res) => {
-  const { date } = req.query;
 
-  const reservations = await service.searchByDate(date);
+const hasValidQuery = (req, res, next) => {
+  const { date, mobile_number } = req.query;
+  if (!date && !mobile_number) {
+    return next({
+      status: 400,
+      message: `Either a date of mobile_number query is needed`,
+    });
+  }
+  next();
+};
+
+const list = async (req, res) => {
+  const { date, mobile_number } = req.query;
+
+  const reservations = await (mobile_number
+    ? service.searchByNumber(mobile_number)
+    : service.searchByDate(date));
   res.json({ data: reservations });
 };
 
@@ -221,7 +235,7 @@ const destroy = async (req, res, next) => {
 };
 
 module.exports = {
-  list: [asyncErrorBoundary(list)],
+  list: [hasValidQuery, asyncErrorBoundary(list)],
   create: [
     validateProperties,
     hasRequiredProperties,
