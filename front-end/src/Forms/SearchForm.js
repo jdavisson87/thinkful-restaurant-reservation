@@ -10,7 +10,6 @@ const SearchForm = ({ setSearch, setReservations, setErrors }) => {
     setReservations([]);
     listReservationsByNumber(mobile, abortController.signal)
       .then((data) => setReservations(data))
-      .then(console.log(mobile))
       .catch(setErrors);
 
     setSearch(true);
@@ -19,7 +18,6 @@ const SearchForm = ({ setSearch, setReservations, setErrors }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     getReservations();
-    console.log('Search Form Submit');
   };
 
   const handleChange = ({ target }) => {
