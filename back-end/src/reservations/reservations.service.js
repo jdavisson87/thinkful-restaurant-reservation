@@ -11,7 +11,11 @@ const searchByDate = (date) => {
 
 // returns reservations for mobile numbers
 const searchByNumber = (mobile) => {
-  return knex('reservations').select('*').where({ mobile_number: mobile });
+  return knex('reservations')
+    .select('*')
+    .where({ mobile_number: mobile })
+    .whereNot('status', 'finished')
+    .orderBy('reservation_date');
 };
 
 // returns a reservation for the specified id
