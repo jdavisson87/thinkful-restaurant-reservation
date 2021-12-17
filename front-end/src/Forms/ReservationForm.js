@@ -36,39 +36,44 @@ const ReservationForm = () => {
         .then(setFormData)
         .catch(setFormError);
       return () => abortController.abort();
-    } else {
-      setFormData({ ...initialForm });
     }
   }, [reservationId, initialForm]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData, ' reservation form');
-    const abortController = new AbortController();
+
     setFormError(null);
     // if new reservation, call createReservation. if edit, need updateReservation
-    if (!reservationId) {
-      createReservation(formData, abortController.signal)
-        .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
-        .catch(setFormError);
-    } else {
-      const editReservation = {
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        people: formData.people,
-        mobile_number: formData.mobile_number,
-        reservation_date: formatAsDate(formData.reservation_date),
-        reservation_time: formatAsTime(formData.reservation_time),
-        status: 'booked',
-        reservation_id: reservationId,
-      };
-      updateReservation(reservationId, editReservation, abortController.signal)
-        .then(() =>
-          history.push(`/dashboard?date=${formData.reservation_date}`)
-        )
-        .catch(setFormError);
-    }
+    reservationId ? submitEdit() : submitNew();
+  };
 
+  const submitNew = () => {
+    const abortController = new AbortController();
+    createReservation(formData, abortController.signal)
+      .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
+      .catch(setFormError);
+    return () => abortController.abort();
+  };
+
+  const submitEdit = () => {
+    const abortController = new AbortController();
+
+    const editReservation = {
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      people: formData.people,
+      mobile_number: formData.mobile_number,
+      reservation_date: formatAsDate(formData.reservation_date),
+      reservation_time: formatAsTime(formData.reservation_time),
+      status: 'booked',
+      reservation_id: reservationId,
+    };
+    updateReservation(reservationId, editReservation, abortController.signal)
+      .then(() =>
+        history.push(`/dashboard?date=${editReservation.reservation_date}`)
+      )
+      .catch(setFormError);
     return () => abortController.abort();
   };
 
@@ -87,6 +92,7 @@ const ReservationForm = () => {
 
   const handleDelete = (event) => {
     event.preventDefault();
+    setFormError(null);
     deleteReservation(reservationId)
       .then(() => {
         console.log('deleted');
