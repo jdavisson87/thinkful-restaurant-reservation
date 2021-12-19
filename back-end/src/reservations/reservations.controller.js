@@ -234,6 +234,34 @@ const destroy = async (req, res, next) => {
     .catch(next);
 };
 
+// updating a reservations status
+
+const statusIsValid = (req, res, next) => {
+  const { status } = res.locals.reservation;
+  const VALID_STATUSES = ['seated', 'finished', 'booked', 'cancelled'];
+
+  if (!VALID_STATUSES.includes(status)) {
+    return next({
+      status: 400,
+      message: `${status} is an invalid status`,
+    });
+  }
+  if (status === 'finished') {
+    return next({
+      status: 400,
+      message: 'a finished reservation cannot be updated',
+    });
+  }
+  next();
+};
+
+const updateStatus = async (req, res) => {
+  const newStatus = req.body.data.status;
+  const { reservation_id } = res.locals.reservation;
+  let data = await service.updateStatus(reservation_id, newStatus);
+  res.status(200).json({ data });
+};
+
 module.exports = {
   list: [hasValidQuery, asyncErrorBoundary(list)],
   create: [
@@ -250,6 +278,11 @@ module.exports = {
     validateValues,
     validUpdateStatus,
     asyncErrorBoundary(update),
+  ],
+  updateStatus: [
+    asyncErrorBoundary(reservationExists),
+    statusIsValid,
+    asyncErrorBoundary(updateStatus),
   ],
   delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
 };

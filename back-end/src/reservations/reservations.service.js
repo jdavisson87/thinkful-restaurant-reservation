@@ -46,11 +46,21 @@ const destroy = (reservation_id) => {
   return knex('reservations').where({ reservation_id }).del();
 };
 
+// update status
+
+const updateStatus = (reservation_id, status) => {
+  return knex('reservations')
+    .where({ reservation_id })
+    .update({ status }, '*')
+    .then((result) => result[0]);
+};
+
 module.exports = {
   searchByDate,
   searchByNumber,
   read,
   create,
   update,
+  updateStatus,
   delete: destroy,
 };
