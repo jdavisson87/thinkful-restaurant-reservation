@@ -5,31 +5,19 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons';
 
 import './Table.css';
 
-const Table = ({ table_name = 'table', size = 1, tableId }) => {
-  const [occupied, setOccupied] = useState(false);
+const Table = ({ table }) => {
+  const { table_name, capacity, open, table_id } = table;
+  const [occupied, setOccupied] = useState(open);
 
-  let status = occupied === false ? 'Free' : 'Occupied';
-  let btnColor = occupied === false ? 'btn-success' : 'btn-danger';
-  let tableShape = size <= 2 ? 'double' : size <= 4 ? 'quad' : 'great';
-
-  const handleSeat = () => {
-    if (occupied) {
-      if (
-        window.confirm('Is this table currently ready?  This cannot be undone.')
-      ) {
-        setOccupied(!occupied);
-      }
-    } else {
-      setOccupied(!occupied);
-    }
-  };
+  let status = occupied === true ? 'Free' : 'Occupied';
+  let tableShape = capacity <= 2 ? 'double' : capacity <= 4 ? 'quad' : 'great';
 
   return (
-    <li className="card tableCard m-2" key={tableId}>
+    <li className="card tableCard m-2" key={table_id}>
       <div className="card-header d-flex justify-content-between align-content-center">
         <h5 className="m-0">{table_name}</h5>
         <div>
-          <Link to={`/tables/${tableId}/edit`}>
+          <Link to={`/tables/${table_id}/edit`}>
             <FontAwesomeIcon icon={faCogs} />
           </Link>
         </div>
@@ -49,10 +37,7 @@ const Table = ({ table_name = 'table', size = 1, tableId }) => {
           {status}
         </span>
       </span>
-      <h5>Seats: {size}</h5>
-      <button className={`btn ${btnColor}`} onClick={handleSeat}>
-        {occupied ? 'Finished' : 'Seat'}
-      </button>
+      <h5>Seats: {capacity}</h5>
     </li>
   );
 };

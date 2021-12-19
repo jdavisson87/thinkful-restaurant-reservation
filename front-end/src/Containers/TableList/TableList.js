@@ -24,13 +24,7 @@ const TableList = () => {
   ) : (
     <ul className="d-flex flex-wrap justify-content-md-between justify-content-around p-0">
       {tables.map((table) => (
-        <Table
-          table_name={table.table_name}
-          size={table.capacity}
-          reserved={table.open}
-          tableId={table.table_id}
-          key={`${table.table_id}${table.table_name}`}
-        />
+        <Table table={table} key={`${table.table_id}${table.table_name}`} />
       ))}
       <ErrorAlert error={tablesError} />
     </ul>
