@@ -12,6 +12,7 @@ const ReservationItem = ({ reservation }) => {
     reservation_time,
     reservation_date,
     reservation_id,
+    status,
   } = reservation;
 
   const handleSeat = (e) => {
@@ -23,6 +24,30 @@ const ReservationItem = ({ reservation }) => {
     e.preventDefault();
     console.log('cancel');
   };
+
+  let resStatus = null;
+
+  resStatus =
+    status === 'cancelled' ? (
+      <div className="row">
+        <span className="col-6 text-danger">CANCELLED</span>
+      </div>
+    ) : status === 'finished' ? (
+      <div className="row">
+        <span className="col-6 text-success">FINISHED</span>
+      </div>
+    ) : null;
+
+  let buttons = null;
+  if (status === 'booked') {
+    buttons = (
+      <ReservationButtons
+        onSeat={handleSeat}
+        onCancel={handleCancel}
+        id={reservation_id}
+      />
+    );
+  }
 
   return (
     <li className="card m-1" key={reservation_id}>
@@ -42,12 +67,14 @@ const ReservationItem = ({ reservation }) => {
           <span className="col-6">Reservation Date: {reservation_date}</span>
           <span className="col-6 text-right"> Size: {people}</span>
         </div>
-        <ReservationButtons
-          onSeat={handleSeat}
-          onCancel={handleCancel}
-          id={reservation_id}
-          time={printableTime(reservation_time)}
-        />
+
+        <div className="row">
+          <span className="col-6">
+            Reservation Time: {printableTime(reservation_time)}
+          </span>
+          {buttons}
+        </div>
+        {resStatus}
       </div>
     </li>
   );
