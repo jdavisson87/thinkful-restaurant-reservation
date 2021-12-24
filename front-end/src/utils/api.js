@@ -161,3 +161,14 @@ export const deleteTable = async (tableId, signal) => {
   };
   return await fetchJson(url, options);
 };
+
+export const updateStatus = async (reservation_id, newStatus, signal) => {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  const options = {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ data: { status: newStatus } }),
+    signal,
+  };
+  return await fetchJson(url, options);
+};

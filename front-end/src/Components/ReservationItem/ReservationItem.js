@@ -1,7 +1,9 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { updateStatus } from '../../utils/api';
 import { printableTime } from '../../utils/date-time';
 import ReservationButtons from '../ReservationButtons/ReservationButtons';
+import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 const ReservationItem = ({ reservation }) => {
   const {
@@ -15,14 +17,24 @@ const ReservationItem = ({ reservation }) => {
     status,
   } = reservation;
 
+  const history = useHistory();
+  const [cancelError, setCancelError] = useState(null);
+
   const handleSeat = (e) => {
     e.preventDefault();
     console.log('seat', reservation_id);
   };
 
-  const handleCancel = (e) => {
-    e.preventDefault();
-    console.log('cancel');
+  const handleCancel = () => {
+    if (window.confirm('Do you wish to cancel this reservation')) {
+      const abortController = new AbortController();
+      setCancelError(null);
+
+      updateStatus(reservation_id, 'cancelled', abortController.signal)
+        .then(() => history.go(0))
+        .catch(setCancelError);
+      return () => abortController.abort();
+    }
   };
 
   let resStatus = null;
@@ -75,6 +87,7 @@ const ReservationItem = ({ reservation }) => {
           {buttons}
         </div>
         {resStatus}
+        <ErrorAlert error={cancelError} />
       </div>
     </li>
   );
