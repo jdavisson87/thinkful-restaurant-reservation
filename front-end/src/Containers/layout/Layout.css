@@ -2,6 +2,9 @@
   background-color: #1f3541;
   min-width: 250px;
   height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
 
 .layout {
