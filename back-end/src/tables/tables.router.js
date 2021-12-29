@@ -13,6 +13,10 @@ router
   .delete(controller.delete)
   .all(methodNotAllowed);
 
-router.route('/:table_id/seat').all(methodNotAllowed);
+router
+  .route('/:table_id/seat')
+  .put(controller.assignReservation)
+  .delete(controller.deleteReservationId)
+  .all(methodNotAllowed);
 
 module.exports = router;

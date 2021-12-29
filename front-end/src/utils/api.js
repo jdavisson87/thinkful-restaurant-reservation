@@ -172,3 +172,24 @@ export const updateStatus = async (reservation_id, newStatus, signal) => {
   };
   return await fetchJson(url, options);
 };
+
+export const assignToTable = async (reservation_id, table_id, signal) => {
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ data: reservation_id }),
+    signal,
+  };
+  return await fetchJson(url, options);
+};
+
+export const finishTable = async (table_id, signal) => {
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = {
+    method: 'DELETE',
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+};

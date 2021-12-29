@@ -1,4 +1,5 @@
 const service = require('./tables.service');
+const reservationService = require('../reservations/reservations.service');
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 
 const list = async (req, res) => {
@@ -102,6 +103,104 @@ const destroy = async (req, res, next) => {
     .catch(next);
 };
 
+// assigning res
+
+const hasResId = async (req, res, next) => {
+  if (req.body?.data?.reservation_id) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: 'reservation id is missing',
+  });
+};
+
+const reservationExists = async (req, res, next) => {
+  const { reservation_id } = req.body.data;
+  const reservation = await reservationService.read(reservation_id);
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({
+    status: 404,
+    message: `Reservation ${reservation_id} does not exist`,
+  });
+};
+
+const reservationBooked = async (req, res, next) => {
+  const { reservation } = res.locals;
+  if (reservation.status !== 'seated') {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `Reservation ${reservation.reservation_id} is already seated`,
+  });
+};
+
+const tableSize = (req, res, next) => {
+  const { table, reservation } = res.locals;
+  if (table.capacity >= reservation.people) {
+    next();
+  }
+  next({
+    status: 400,
+    message: `Table ${table.tableName} does not have enough room for ${reservation.people} people`,
+  });
+};
+
+const tableFree = (req, res, next) => {
+  const { table } = res.locals;
+  if (!table.reservation_id) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `Table ${table.tableName} is already occupied`,
+  });
+};
+
+const occupyTable = (req, res, next) => {
+  const { table } = res.locals;
+  const { reservation_id } = req.body.data;
+  table.reservation_id = reservation_id;
+  res.locals.resId = reservation_id;
+  res.locals.resStatus = 'seated';
+  if (table.reservation_id) {
+    next();
+  }
+  next({
+    status: 400,
+    message: `Reservation ${reservation_id} could not be assigned a table`,
+  });
+};
+
+const tableOccupied = (req, res, next) => {
+  const { table } = res.locals;
+  if (table.reservation_id) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `Table ${table.tableName} is not occupied`,
+  });
+};
+
+const removeFromTable = (req, res, next) => {
+  const { table } = res.locals;
+  res.locals.resId = table.reservation_id;
+  table.reservation_id = null;
+  res.locals.resStatus = 'finished';
+  if (!table.reservation_id) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `Table ${table.tableName} could not remove reservation with id ${table.reservation_id}`,
+  });
+};
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -111,6 +210,22 @@ module.exports = {
   ],
   read: [asyncErrorBoundary(tableExist), asyncErrorBoundary(read)],
   update: [asyncErrorBoundary(tableExist), asyncErrorBoundary(update)],
+  assignReservation: [
+    asyncErrorBoundary(hasResId),
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(reservationBooked),
+    asyncErrorBoundary(tableExist),
+    tableSize,
+    tableFree,
+    occupyTable,
+    asyncErrorBoundary(update),
+  ],
+  deleteReservationId: [
+    asyncErrorBoundary(tableExist),
+    tableOccupied,
+    removeFromTable,
+    asyncErrorBoundary(update),
+  ],
   delete: [
     asyncErrorBoundary(tableExist),
     isTableValidForDeletion,
