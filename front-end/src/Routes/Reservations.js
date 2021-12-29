@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ReservationCtr from '../Containers/ReservationCtr/ReservationCtr';
+import ReservationSeating from '../Containers/ReservationSeating/ReservationSeating';
 import NotFound from '../ErrorHandlers/NotFound';
 
 const ReservationRoutes = () => (
@@ -11,6 +12,9 @@ const ReservationRoutes = () => (
       </Route>
       <Route path="/reservations/:reservationId/edit">
         <ReservationCtr />
+      </Route>
+      <Route path={`/reservations/:reservationId/seat`}>
+        <ReservationSeating />
       </Route>
       <Route>
         <NotFound />

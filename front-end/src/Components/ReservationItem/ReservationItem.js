@@ -53,11 +53,7 @@ const ReservationItem = ({ reservation }) => {
   let buttons = null;
   if (status === 'booked') {
     buttons = (
-      <ReservationButtons
-        onSeat={handleSeat}
-        onCancel={handleCancel}
-        id={reservation_id}
-      />
+      <ReservationButtons onCancel={handleCancel} id={reservation_id} />
     );
   }
 

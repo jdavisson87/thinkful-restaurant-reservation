@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-const ReservationButtons = ({ onCancel, onSeat, id }) => {
+const ReservationButtons = ({ onCancel, id }) => {
   const history = useHistory();
   return (
     <div className="d-flex col-6 justify-content-end">
@@ -11,7 +11,10 @@ const ReservationButtons = ({ onCancel, onSeat, id }) => {
       >
         <span className="oi oi-pencil mr-2 p-1">&nbsp;Edit</span>
       </button>
-      <button className="btn btn-info m-1" onClick={onSeat}>
+      <button
+        className="btn btn-info m-1"
+        onClick={() => history.push(`/reservations/${id}/seat`)}
+      >
         <span className="oi oi-thumb-up mr-2 p-1">&nbsp;Seat</span>
       </button>
       <button className="btn btn-danger m-1" onClick={onCancel}>
