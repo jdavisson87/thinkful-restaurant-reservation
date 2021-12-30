@@ -14,7 +14,6 @@ const tableExist = async (req, res, next) => {
   const table = await service.read(table_id);
   if (table) {
     res.locals.table = table;
-
     return next();
   }
   return next({ status: 404, message: 'Table cannot be found' });
@@ -168,7 +167,7 @@ const occupyTable = (req, res, next) => {
   res.locals.resId = reservation_id;
   res.locals.resStatus = 'seated';
   if (table.reservation_id) {
-    next();
+    return next();
   }
   next({
     status: 400,
