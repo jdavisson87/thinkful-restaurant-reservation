@@ -6,7 +6,7 @@ const ReservationButtons = ({ onCancel, id }) => (
       <span className="oi oi-pencil mr-2 p-1">&nbsp;Edit</span>
     </a>
     <a className="btn btn-info m-1" href={`/reservations/${id}/seat`}>
-      <span className="oi oi-thumb-up mr-2 p-1">&nbsp;Seat</span>
+      <span className="oi oi-check mr-2 p-1">&nbsp;Seat</span>
     </a>
     <button className="btn btn-danger m-1" onClick={onCancel}>
       <span className="oi oi-ban mr-2 p-1">&nbsp; Cancel</span>

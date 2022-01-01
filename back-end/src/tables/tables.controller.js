@@ -16,20 +16,20 @@ const tableExist = async (req, res, next) => {
     res.locals.table = table;
     return next();
   }
-  return next({ status: 404, message: 'Table cannot be found' });
+  next({ status: 404, message: 'Table cannot be found' });
 };
 
 const duplicateNameCheck = async (req, res, next) => {
   const { table_name } = req.body.data;
   const tables = await service.list();
   const tableNames = tables.map((table) => table.table_name);
-  if (tableNames.includes(table_name)) {
-    return next({
-      status: 404,
-      message: 'There is already a table with this name',
-    });
+  if (!tableNames.includes(table_name)) {
+    return next();
   }
-  next();
+  next({
+    status: 404,
+    message: 'There is already a table with this name',
+  });
 };
 
 const tableNameIsValid = (tableName) => {
@@ -105,7 +105,8 @@ const destroy = async (req, res, next) => {
 // assigning res
 
 const hasResId = async (req, res, next) => {
-  if (req.body?.data?.reservation_id) {
+  const { reservation_id } = req.body.data;
+  if (reservation_id) {
     return next();
   }
   next({
@@ -141,11 +142,11 @@ const reservationBooked = async (req, res, next) => {
 const tableSize = (req, res, next) => {
   const { table, reservation } = res.locals;
   if (table.capacity >= reservation.people) {
-    next();
+    return next();
   }
   next({
     status: 400,
-    message: `Table ${table.tableName} does not have enough room for ${reservation.people} people`,
+    message: `Table ${table.table_name} does not have enough room for ${reservation.people} people`,
   });
 };
 

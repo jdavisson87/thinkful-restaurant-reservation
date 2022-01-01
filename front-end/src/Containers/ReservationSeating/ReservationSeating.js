@@ -84,7 +84,7 @@ const ReservationSeating = () => {
           >
             {tableList.map(({ table_name, table_id, capacity }) => (
               <option key={table_id} value={table_id}>
-                {table_name} - {capacity}
+                {table_name} - {capacity} - {table_id}
               </option>
             ))}
           </select>

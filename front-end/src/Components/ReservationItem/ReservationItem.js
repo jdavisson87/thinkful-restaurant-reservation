@@ -20,11 +20,6 @@ const ReservationItem = ({ reservation }) => {
   const history = useHistory();
   const [cancelError, setCancelError] = useState(null);
 
-  const handleSeat = (e) => {
-    e.preventDefault();
-    console.log('seat', reservation_id);
-  };
-
   const handleCancel = () => {
     if (window.confirm('Do you wish to cancel this reservation')) {
       const abortController = new AbortController();

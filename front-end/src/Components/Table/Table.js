@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs } from '@fortawesome/free-solid-svg-icons';
@@ -7,9 +7,8 @@ import './Table.css';
 
 const Table = ({ table }) => {
   const { table_name, capacity, open, table_id } = table;
-  const [occupied, setOccupied] = useState(open);
 
-  let status = occupied === true ? 'Free' : 'Occupied';
+  let status = open === true ? 'Free' : 'Occupied';
   let tableShape = capacity <= 2 ? 'double' : capacity <= 4 ? 'quad' : 'great';
 
   return (
