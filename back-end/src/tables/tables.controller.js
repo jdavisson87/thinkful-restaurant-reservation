@@ -86,10 +86,12 @@ const read = async (req, res) => {
   res.json({ data: table });
 };
 
-const update = async (req, res, next) => {
+const update = async (req, res) => {
+  const { table, resId, resStatus } = res.locals;
+  const updatedTable = { ...table };
   service
-    .update(req.body.data)
-    .then((data) => res.sendStatus(204))
+    .update(updatedTable, resId, resStatus)
+    .then((data) => res.json({ data }))
     .catch(next);
 };
 
