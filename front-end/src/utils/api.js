@@ -121,7 +121,7 @@ export const deleteReservation = async (id, signal) => {
 // Tables
 
 export const listTables = async (signal) => {
-  const url = new URL(`${API_BASE_URL}/tables`);
+  const url = new URL(`${API_BASE_URL}/tables/`);
   return await fetchJson(url, { headers, signal }, []);
 };
 
@@ -131,7 +131,7 @@ export const getTable = async (tableId, signal) => {
 };
 
 export const postTable = async (tableDetails, signal) => {
-  const url = new URL(`${API_BASE_URL}/tables/new`);
+  const url = new URL(`${API_BASE_URL}/tables/`);
   const options = {
     method: 'POST',
     headers,
