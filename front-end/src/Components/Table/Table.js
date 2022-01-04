@@ -6,10 +6,17 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons';
 import './Table.css';
 
 const Table = ({ table }) => {
-  const { table_name, capacity, open, table_id } = table;
+  const { table_name, capacity, open, table_id, reservation_id } = table;
 
-  let status = open === true ? 'Free' : 'Occupied';
+  let status = reservation_id ? 'Occupied' : 'Free';
   let tableShape = capacity <= 2 ? 'double' : capacity <= 4 ? 'quad' : 'great';
+
+  let finishBtn = reservation_id ? (
+    <div>
+      <p>{reservation_id}</p>
+      <button className="btn btn-info">Finish</button>
+    </div>
+  ) : null;
 
   return (
     <li className="card tableCard m-2" key={table_id}>
@@ -37,6 +44,7 @@ const Table = ({ table }) => {
         </span>
       </span>
       <h5>Seats: {capacity}</h5>
+      <p>{finishBtn}</p>
     </li>
   );
 };
