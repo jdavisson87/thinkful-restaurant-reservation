@@ -73,9 +73,6 @@ const ReservationItem = ({ reservation }) => {
         <div className="row">
           <span className="col-6">Reservation Date: {reservation_date}</span>
           <span className="col-6 text-right"> Size: {people}</span>
-          <p>
-            {status} {reservation_id}
-          </p>
         </div>
 
         <div className="row">

@@ -22,7 +22,11 @@ const ReservationSeating = () => {
     setTableListError(null);
     listTables(abortController.signal)
       .then(setTableList)
-      .then(() => tableList.length > 0 && setTableId(tableList[0].table_id))
+      .then(() => {
+        if (tableList.length > 0) {
+          setTableId(tableList[0].table_id);
+        }
+      })
       .catch(setTableListError);
 
     return () => abortController.abort();
@@ -59,13 +63,11 @@ const ReservationSeating = () => {
     setTableId(e.target.value);
   };
 
-  console.log(reservationId, 'reservation', reservation);
-
   return (
     <div>
       <h1>
         Reservation for {reservation.first_name} {reservation.last_name}, party
-        of {reservation.people}
+        of {reservation.people} &nbsp; {tableId}
       </h1>
       <ErrorAlert error={reservationError} />
       <ErrorAlert error={tableListError} />
@@ -75,16 +77,18 @@ const ReservationSeating = () => {
           Pick Table: &nbsp;
         </label>
         <div>
-          <h5>Table Name - Size</h5>
           <select
             name="table_id"
             onChange={handleChange}
             required={true}
             style={{ minWidth: '200px' }}
           >
+            <option defaultValue value={null}>
+              Table: # - Capacity: #{' '}
+            </option>
             {tableList.map(({ table_name, table_id, capacity }) => (
               <option key={table_id} value={table_id}>
-                {table_name} - {capacity} - {table_id}
+                {table_name} - {capacity}
               </option>
             ))}
           </select>

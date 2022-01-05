@@ -138,7 +138,7 @@ const tableExist = async (req, res, next) => {
     res.locals.table = table;
     return next();
   }
-  next({ status: 404, message: 'Table cannot be found' });
+  next({ status: 404, message: `Table with id: ${table_id} was not found` });
 };
 
 const tableSize = (req, res, next) => {

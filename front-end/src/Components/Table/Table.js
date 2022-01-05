@@ -15,7 +15,8 @@ const Table = ({ table }) => {
   let status = reservation_id ? 'Occupied' : 'Free';
   let tableShape = capacity <= 2 ? 'double' : capacity <= 4 ? 'quad' : 'great';
 
-  const handleFinish = () => {
+  const handleFinish = (e) => {
+    e.preventDefault();
     if (
       window.confirm(
         'Is this table ready to seat new guests? This cannot be undone.'
@@ -32,7 +33,6 @@ const Table = ({ table }) => {
 
   let finishBtn = reservation_id ? (
     <div>
-      <p>{reservation_id}</p>
       <button onClick={handleFinish} className="btn btn-info">
         Finish
       </button>
