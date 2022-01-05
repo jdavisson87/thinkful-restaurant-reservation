@@ -9,16 +9,6 @@ const list = async (req, res) => {
   res.json({ data: data });
 };
 
-const tableExist = async (req, res, next) => {
-  const { table_id } = req.params;
-  const table = await service.read(table_id);
-  if (table) {
-    res.locals.table = table;
-    return next();
-  }
-  next({ status: 404, message: 'Table cannot be found' });
-};
-
 const duplicateNameCheck = async (req, res, next) => {
   const { table_name } = req.body.data;
   const tables = await service.list();
@@ -71,13 +61,7 @@ const isTableValidForDeletion = (req, res, next) => {
 // CRUDL
 
 const create = async (req, res) => {
-  const newTable = await service.create(req.body.data);
-  const data = {
-    table_name: newTable.table_name,
-    capacity: newTable.capacity,
-    open: true,
-    reservation_id: null,
-  };
+  const data = await service.create(req.body.data);
   res.status(201).json({ data });
 };
 
@@ -89,10 +73,15 @@ const read = async (req, res) => {
 const update = async (req, res) => {
   const { table, resId, resStatus } = res.locals;
   const updatedTable = { ...table };
-  service
-    .update(updatedTable, resId, resStatus)
-    .then((data) => res.json({ data }))
-    .catch(next);
+  const data = await service.update(updatedTable, resId, resStatus);
+  res.json({ data });
+};
+
+const updateTable = async (req, res) => {
+  const { table } = res.locals;
+
+  const data = service.updateTable(table);
+  res.json({ data });
 };
 
 // Need to make sure the destroy function is not called if table_id is less than 5
@@ -106,9 +95,10 @@ const destroy = async (req, res, next) => {
 
 // assigning res
 
-const hasResId = async (req, res, next) => {
+const hasResId = (req, res, next) => {
   const { reservation_id } = req.body.data;
   if (reservation_id) {
+    res.locals.resId = reservation_id;
     return next();
   }
   next({
@@ -118,8 +108,8 @@ const hasResId = async (req, res, next) => {
 };
 
 const reservationExists = async (req, res, next) => {
-  const { reservation_id } = req.body.data;
-  const reservation = await reservationService.read(reservation_id);
+  const { resId } = res.locals;
+  const reservation = await reservationService.read(resId);
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
@@ -139,6 +129,16 @@ const reservationBooked = async (req, res, next) => {
     status: 400,
     message: `Reservation ${reservation.reservation_id} is already seated`,
   });
+};
+
+const tableExist = async (req, res, next) => {
+  const { table_id } = req.params;
+  const table = await service.read(table_id);
+  if (table) {
+    res.locals.table = table;
+    return next();
+  }
+  next({ status: 404, message: 'Table cannot be found' });
 };
 
 const tableSize = (req, res, next) => {
@@ -164,10 +164,8 @@ const tableFree = (req, res, next) => {
 };
 
 const occupyTable = (req, res, next) => {
-  const { table } = res.locals;
-  const { reservation_id } = req.body.data;
-  table.reservation_id = reservation_id;
-  res.locals.resId = reservation_id;
+  const { table, resId } = res.locals;
+  table.reservation_id = resId;
   res.locals.resStatus = 'seated';
   if (table.reservation_id) {
     return next();
@@ -211,9 +209,12 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(tableExist), asyncErrorBoundary(read)],
-  update: [asyncErrorBoundary(tableExist), asyncErrorBoundary(update)],
+  updateTable: [
+    asyncErrorBoundary(tableExist),
+    asyncErrorBoundary(updateTable),
+  ],
   assignReservation: [
-    asyncErrorBoundary(hasResId),
+    hasResId,
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(reservationBooked),
     asyncErrorBoundary(tableExist),

@@ -25,16 +25,23 @@ const update = async (updatedTable, resId, updatedStatus) => {
         .where({ table_id: updatedTable.table_id })
         .update(updatedTable, '*')
         .then((updatedTable) => updatedTable[0]);
-      if (resId && updatedStatus) {
-        const returnedReservation = await trx('reservations')
-          .where({ reservation_id: resId })
-          .update({ status: updatedStatus }, '*')
-          .then((updatedReservations) => updatedReservations[0]);
-      }
+
+      const returnedReservation = await trx('reservations')
+        .where({ reservation_id: resId })
+        .update({ status: updatedStatus }, '*')
+        .then((updatedReservations) => updatedReservations[0]);
     });
   } catch (error) {
     console.error(error);
   }
+};
+
+const updateTable = async (updatedTable) => {
+  return knex('tables')
+    .select('*')
+    .where({ table_id: updatedTable.table_id })
+    .update(updatedTable, '*')
+    .then((updatedTable) => updatedTable[0]);
 };
 
 const destroy = (tableId) => {
@@ -46,5 +53,6 @@ module.exports = {
   create,
   read,
   update,
+  updateTable,
   delete: destroy,
 };

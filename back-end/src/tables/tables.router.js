@@ -5,7 +5,7 @@ const methodNotAllowed = require('../errors/methodNotAllowed');
 router
   .route('/:table_id/edit')
   .get(controller.read)
-  .put(controller.update)
+  .put(controller.updateTable)
   .delete(controller.delete)
   .all(methodNotAllowed);
 

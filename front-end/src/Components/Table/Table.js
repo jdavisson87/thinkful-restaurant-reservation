@@ -1,20 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCogs } from '@fortawesome/free-solid-svg-icons';
+import { finishTable } from '../../utils/api';
+import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 import './Table.css';
 
 const Table = ({ table }) => {
-  const { table_name, capacity, open, table_id, reservation_id } = table;
+  const { table_name, capacity, table_id, reservation_id } = table;
+  const [tableError, setTableError] = useState(null);
+  const history = useHistory();
 
   let status = reservation_id ? 'Occupied' : 'Free';
   let tableShape = capacity <= 2 ? 'double' : capacity <= 4 ? 'quad' : 'great';
 
+  const handleFinish = () => {
+    if (
+      window.confirm(
+        'Is this table ready to seat new guests? This cannot be undone.'
+      )
+    ) {
+      const abortController = new AbortController();
+      setTableError(null);
+      finishTable(table_id, abortController.signal)
+        .then(() => history.go(0))
+        .catch(setTableError);
+      return () => abortController.abort();
+    }
+  };
+
   let finishBtn = reservation_id ? (
     <div>
       <p>{reservation_id}</p>
-      <button className="btn btn-info">Finish</button>
+      <button onClick={handleFinish} className="btn btn-info">
+        Finish
+      </button>
     </div>
   ) : null;
 
@@ -44,7 +65,8 @@ const Table = ({ table }) => {
         </span>
       </span>
       <h5>Seats: {capacity}</h5>
-      <p>{finishBtn}</p>
+      {finishBtn}
+      <ErrorAlert error={tableError} />
     </li>
   );
 };
