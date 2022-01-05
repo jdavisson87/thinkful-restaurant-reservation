@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { formatAsTime, printableTime } from '../../utils/date-time';
 
 const Clock = () => {
-  const [time, setTime] = useState();
-  const [loading, setLoading] = useState(true);
+  const [time, setTime] = useState(new Date().toTimeString());
+
+  let timeFormat = printableTime(formatAsTime(time));
 
   const getTime = () => {
-    const newTime = printableTime(formatAsTime(new Date().toTimeString()));
+    const newTime = new Date().toTimeString();
     setTime(newTime);
-    setLoading(false);
   };
-
-  const whileLoading = (
-    <div className="spinner-border text-primary" role="status">
-      <span className="sr-only">Loading...</span>
-    </div>
-  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,7 +20,7 @@ const Clock = () => {
 
   return (
     <div>
-      <h4>{loading ? whileLoading : time}</h4>
+      <h4>{timeFormat}</h4>
     </div>
   );
 };
