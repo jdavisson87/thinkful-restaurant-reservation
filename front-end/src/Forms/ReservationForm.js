@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
 import { today, formatAsTime, formatAsDate } from '../utils/date-time';
@@ -9,21 +9,20 @@ import {
   deleteReservation,
 } from '../utils/api';
 import ErrorAlert from '../ErrorHandlers/ErrorAlert';
+import './ReservationForm.css';
 
 const ReservationForm = () => {
   const { reservationId } = useParams();
   const history = useHistory();
 
-  const initialForm = useMemo(() => {
-    return {
-      first_name: '',
-      last_name: '',
-      mobile_number: '',
-      reservation_date: today(),
-      reservation_time: formatAsTime(new Date().toTimeString()),
-      people: 1,
-    };
-  }, []);
+  const initialForm = {
+    first_name: '',
+    last_name: '',
+    mobile_number: '',
+    reservation_date: today(),
+    reservation_time: formatAsTime(new Date().toTimeString()),
+    people: 1,
+  };
 
   const [formData, setFormData] = useState({ ...initialForm });
   const [formError, setFormError] = useState(null);
@@ -37,7 +36,7 @@ const ReservationForm = () => {
         .catch(setFormError);
       return () => abortController.abort();
     }
-  }, [reservationId, initialForm]);
+  }, [reservationId]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,7 +50,7 @@ const ReservationForm = () => {
   const submitNew = () => {
     const abortController = new AbortController();
     createReservation(formData, abortController.signal)
-      .then(() => history.push(`/dashboard?date${formData.reservation_date}`))
+      .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
       .catch(setFormError);
     return () => abortController.abort();
   };
@@ -113,7 +112,7 @@ const ReservationForm = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <div className="form-group col-md-4">
-          <label htmlFor="firstName">First Name:</label>
+          <label htmlFor="first_name">First Name:</label>
           <input
             type="text"
             className="form-control"
@@ -126,11 +125,11 @@ const ReservationForm = () => {
           />
         </div>
         <div className="form-group col-md-4">
-          <label htmlFor="lastName">Last Name:</label>
+          <label htmlFor="last_name">Last Name:</label>
           <input
+            id="last_name"
             type="text"
             className="form-control"
-            id="last_name"
             name="last_name"
             placeholder="Last Name"
             onChange={handleChange}
@@ -139,9 +138,10 @@ const ReservationForm = () => {
           />
         </div>
         <div className="form-group col-md-4">
-          <label htmlFor="mobile">
+          <label htmlFor="mobile_number">
             Mobile Number (Please format your number with dashes):
           </label>
+
           <input
             type="tel"
             className="form-control"
@@ -153,13 +153,14 @@ const ReservationForm = () => {
             value={formData.mobile_number}
             required={true}
           />
+          <span className="validity" />
         </div>
         <div className="form-group col-md-4">
           <label htmlFor="reservation_date">Reservation Date:</label>
           <input
+            id="reservation_date"
             type="date"
             className="form-control"
-            id="reservation_date"
             name="reservation_date"
             onChange={handleChange}
             placeholder="YYYY-MM-DD"
@@ -171,10 +172,10 @@ const ReservationForm = () => {
         <div className="form-group col-md-4">
           <label htmlFor="reservation_time">Reservation Time:</label>
           <input
-            type="time"
-            className="form-control"
             id="reservation_time"
+            type="time"
             name="reservation_time"
+            className="form-control"
             onChange={handleChange}
             placeholder="HH:MM"
             pattern="[0-9]{2}:[0-9]{2}"
@@ -183,16 +184,16 @@ const ReservationForm = () => {
           />
         </div>
         <div className="form-group col-md-4">
-          <label htmlFor="partySize">Party Size:</label>
+          <label htmlFor="people">Party Size:</label>
           <input
-            type="number"
-            className="form-control"
             id="people"
+            type="number"
             name="people"
+            className="form-control"
             onChange={handleChange}
+            required={true}
             min="1"
             value={formData.people}
-            required={true}
           />
         </div>
         <div className="btn-toolbar col-md-6">

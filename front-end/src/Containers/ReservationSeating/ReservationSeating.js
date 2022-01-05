@@ -22,11 +22,6 @@ const ReservationSeating = () => {
     setTableListError(null);
     listTables(abortController.signal)
       .then(setTableList)
-      .then(() => {
-        if (tableList.length > 0) {
-          setTableId(tableList[0].table_id);
-        }
-      })
       .catch(setTableListError);
 
     return () => abortController.abort();
@@ -46,11 +41,13 @@ const ReservationSeating = () => {
     e.preventDefault();
     const abortController = new AbortController();
     setTableError(null);
-
-    assignToTable(reservationId, tableId, abortController.signal)
-      .then(() => history.push('/dashboard'))
-      .catch(setTableError);
-
+    if (!tableId) {
+      alert('Please select a table for your reservation part.');
+    } else {
+      assignToTable(reservationId, tableId, abortController.signal)
+        .then(() => history.push('/dashboard'))
+        .catch(setTableError);
+    }
     return () => abortController.abort();
   };
 
@@ -67,25 +64,23 @@ const ReservationSeating = () => {
     <div>
       <h1>
         Reservation for {reservation.first_name} {reservation.last_name}, party
-        of {reservation.people} &nbsp; {tableId}
+        of {reservation.people} &nbsp;
       </h1>
       <ErrorAlert error={reservationError} />
       <ErrorAlert error={tableListError} />
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="table_id" className={'sr-only'}>
-          Pick Table: &nbsp;
-        </label>
         <div>
+          <label htmlFor="table_id" className={'sr-only'}>
+            Pick Table: &nbsp;
+          </label>
           <select
             name="table_id"
             onChange={handleChange}
             required={true}
             style={{ minWidth: '200px' }}
           >
-            <option defaultValue value={null}>
-              Table: # - Capacity: #{' '}
-            </option>
+            <option defaultValue>Table: # - Capacity: # </option>
             {tableList.map(({ table_name, table_id, capacity }) => (
               <option key={table_id} value={table_id}>
                 {table_name} - {capacity}

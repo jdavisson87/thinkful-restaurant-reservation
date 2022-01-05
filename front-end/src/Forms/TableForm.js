@@ -33,8 +33,8 @@ const TableForm = () => {
   }, [table_id, initialNewTable]);
 
   const handleChange = ({ target }) => {
-    let value = target.value;
-    setNewTable({ ...newTable, [target.name]: value });
+    let { name, value } = target;
+    setNewTable({ ...newTable, [name]: value });
   };
 
   const handleDelete = (e) => {
