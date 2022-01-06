@@ -12,7 +12,6 @@ const ReservationItem = ({ reservation }) => {
     mobile_number,
     people,
     reservation_time,
-    reservation_date,
     reservation_id,
     status,
   } = reservation;
@@ -36,17 +35,13 @@ const ReservationItem = ({ reservation }) => {
 
   resStatus =
     status === 'cancelled' ? (
-      <div className="row">
-        <span className="col-6 text-danger">CANCELLED</span>
-      </div>
+      <span className="text-danger">CANCELLED</span>
+    ) : status === 'booked' ? (
+      <span className="text-success">BOOKED</span>
     ) : status === 'finished' ? (
-      <div className="row">
-        <span className="col-6 text-success">FINISHED</span>
-      </div>
+      <span className="text-success">FINISHED</span>
     ) : status === 'seated' ? (
-      <div className="row">
-        <span className="col-6 text-success">SEATED</span>
-      </div>
+      <span className="text-success">SEATED</span>
     ) : null;
 
   let buttons = null;
@@ -57,31 +52,36 @@ const ReservationItem = ({ reservation }) => {
   }
 
   return (
-    <li className="card m-1" key={reservation_id}>
-      <h5 className="card-header font-weight-bold">
-        <div className="row">
-          <span className="col-6">
-            {first_name} {last_name}
-          </span>
-          <span className="col-6 text-right">
-            <span className="oi oi-phone" />
-            &nbsp; &nbsp; {mobile_number}
-          </span>
-        </div>
-      </h5>
-      <div className="card-body m-0 p-2 container-fluid">
-        <div className="row">
-          <span className="col-6">Reservation Date: {reservation_date}</span>
-          <span className="col-6 text-right"> Size: {people}</span>
-        </div>
+    <li
+      className="card m-1 "
+      key={reservation_id}
+      style={{ 'min-width': '250px' }}
+    >
+      <div className="card-header d-flex flex-column">
+        <h4 className="font-weight-bold">
+          {first_name} {last_name}
+        </h4>
 
+        <h5 className="font-weight-bold">
+          <span className="oi oi-phone" />
+          &nbsp; {mobile_number}
+        </h5>
+      </div>
+      <div className="card-body container-fluid text-center">
         <div className="row">
-          <span className="col-6">
-            Reservation Time: {printableTime(reservation_time)}
-          </span>
-          {buttons}
+          <p className="m-0 p-0">Reservation Time:</p>
+          <p className="font-weight-bold m-0 p-0">
+            &nbsp; {printableTime(reservation_time)}
+          </p>
         </div>
-        {resStatus}
+        <div className="row">
+          <p className="p-0 m-0"> Size: </p>
+          <p className="font-weight-bold m-0 p-0">&nbsp; {people}</p>
+        </div>
+        <div className="row">
+          <p className="p-0 m-0"> Status: {resStatus}</p>
+        </div>
+        <div className="row">{buttons}</div>
         <ErrorAlert error={cancelError} />
       </div>
     </li>
@@ -89,3 +89,8 @@ const ReservationItem = ({ reservation }) => {
 };
 
 export default ReservationItem;
+
+//
+//
+//         <p>Status: {resStatus}</p>
+//         <span>{buttons}</span>
