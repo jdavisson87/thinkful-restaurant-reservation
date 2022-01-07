@@ -5,7 +5,7 @@ import { listTables, assignToTable, getReservation } from '../../utils/api';
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 const ReservationSeating = () => {
-  const { reservationId } = useParams();
+  const { reservation_id } = useParams();
   const history = useHistory();
   const [tableError, setTableError] = useState(null);
 
@@ -31,11 +31,11 @@ const ReservationSeating = () => {
     const abortController = new AbortController();
     setReservationError(null);
 
-    getReservation(reservationId, abortController.signal)
+    getReservation(reservation_id, abortController.signal)
       .then(setReservation)
       .catch(setReservationError);
     return () => abortController.abort();
-  }, [reservationId]);
+  }, [reservation_id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,7 +44,7 @@ const ReservationSeating = () => {
     if (!tableId) {
       alert('Please select a table for your reservation part.');
     } else {
-      assignToTable(reservationId, tableId, abortController.signal)
+      assignToTable(reservation_id, tableId, abortController.signal)
         .then(() => history.push('/dashboard'))
         .catch(setTableError);
     }

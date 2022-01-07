@@ -12,7 +12,7 @@ import ErrorAlert from '../ErrorHandlers/ErrorAlert';
 import './ReservationForm.css';
 
 const ReservationForm = () => {
-  const { reservationId } = useParams();
+  const { reservation_id } = useParams();
   const history = useHistory();
 
   const initialForm = {
@@ -28,23 +28,21 @@ const ReservationForm = () => {
   const [formError, setFormError] = useState(null);
 
   useEffect(() => {
-    if (reservationId) {
+    if (reservation_id) {
       const abortController = new AbortController();
       setFormError(null);
-      getReservation(reservationId, abortController.signal)
+      getReservation(reservation_id, abortController.signal)
         .then(setFormData)
         .catch(setFormError);
       return () => abortController.abort();
     }
-  }, [reservationId]);
+  }, [reservation_id]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData, ' reservation form');
-
     setFormError(null);
     // if new reservation, call createReservation. if edit, need updateReservation
-    reservationId ? submitEdit() : submitNew();
+    reservation_id ? submitEdit() : submitNew();
   };
 
   const submitNew = () => {
@@ -66,12 +64,10 @@ const ReservationForm = () => {
       reservation_date: formatAsDate(formData.reservation_date),
       reservation_time: formatAsTime(formData.reservation_time),
       status: 'booked',
-      reservation_id: reservationId,
+      reservation_id: reservation_id,
     };
-    updateReservation(reservationId, editReservation, abortController.signal)
-      .then(() =>
-        history.push(`/dashboard?date=${editReservation.reservation_date}`)
-      )
+    updateReservation(reservation_id, editReservation, abortController.signal)
+      .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
       .catch(setFormError);
     return () => abortController.abort();
   };
@@ -92,10 +88,7 @@ const ReservationForm = () => {
   const handleDelete = (event) => {
     event.preventDefault();
     setFormError(null);
-    deleteReservation(reservationId)
-      .then(() => {
-        console.log('deleted');
-      })
+    deleteReservation(reservation_id)
       .then(() => {
         history.push('/dashboard');
       })
@@ -141,7 +134,6 @@ const ReservationForm = () => {
           <label htmlFor="mobile_number">
             Mobile Number (Please format your number with dashes):
           </label>
-
           <input
             type="tel"
             className="form-control"
@@ -207,7 +199,7 @@ const ReservationForm = () => {
           <button type="submit" className="btn btn-primary m-3">
             Submit
           </button>
-          {reservationId && deleteBtn}
+          {reservation_id && deleteBtn}
         </div>
         <ErrorAlert error={formError} />
       </form>

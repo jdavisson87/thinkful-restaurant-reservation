@@ -3,12 +3,12 @@ import { useParams } from 'react-router';
 import ReservationForm from '../../Forms/ReservationForm';
 
 const ReservationCtr = () => {
-  const { reservationId } = useParams();
+  const { reservation_id } = useParams();
   const [title, setTitle] = useState('New');
 
   useEffect(() => {
-    reservationId ? setTitle('Edit') : setTitle('New');
-  }, [reservationId]);
+    reservation_id ? setTitle('Edit') : setTitle('New');
+  }, [reservation_id]);
 
   return (
     <div>

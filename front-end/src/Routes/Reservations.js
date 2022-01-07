@@ -10,10 +10,10 @@ const ReservationRoutes = () => (
       <Route path="/reservations/new">
         <ReservationCtr />
       </Route>
-      <Route path="/reservations/:reservationId/edit">
+      <Route path="/reservations/:reservation_id/edit">
         <ReservationCtr />
       </Route>
-      <Route path={`/reservations/:reservationId/seat`}>
+      <Route path={`/reservations/:reservation_id/seat`}>
         <ReservationSeating />
       </Route>
       <Route>
