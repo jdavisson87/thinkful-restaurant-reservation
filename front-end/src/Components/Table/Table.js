@@ -33,7 +33,7 @@ const Table = ({ table }) => {
 
   let finishBtn = reservation_id ? (
     <div>
-      <button onClick={handleFinish} className="btn btn-info">
+      <button onClick={handleFinish} className="btn btn-info mb-2">
         Finish
       </button>
     </div>
@@ -53,7 +53,7 @@ const Table = ({ table }) => {
         <div className={`${tableShape}`} />
       </div>
       <span>
-        Status:{' '}
+        Status:&nbsp;
         <span
           className={
             status === 'Free'
