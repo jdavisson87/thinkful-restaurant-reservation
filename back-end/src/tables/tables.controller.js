@@ -22,23 +22,61 @@ const duplicateNameCheck = async (req, res, next) => {
   });
 };
 
-const tableNameIsValid = (tableName) => {
+const tableNameIsValid = (tableName = '') => {
   return tableName.length > 1;
 };
 
 const capacityIsValid = (capacity) => {
-  return capacity > 0;
+  return Number.isInteger(capacity) && capacity > 0;
 };
+
+const VALID_PROPERTIES = ['table_name', 'capacity', 'reservation_id'];
+
+const hasValidProperties = (req, res, next) => {
+  const { data = {} } = req.body;
+  const invalidFields = Object.keys(data).filter(
+    (field) => !VALID_PROPERTIES.includes(field)
+  );
+
+  if (invalidFields.length) {
+    return next({
+      status: 400,
+      message: `Invalid field(s): ${invalidFields.join(', ')}`,
+    });
+  }
+  next();
+};
+
+function hasProperties(...properties) {
+  return function (req, res, next) {
+    const { data = {} } = req.body;
+
+    try {
+      properties.forEach((property) => {
+        if (!data[property]) {
+          const error = new Error(`A '${property}' property is required.`);
+          error.status = 400;
+          throw error;
+        }
+      });
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
+}
+
+const hasRequiredProperties = hasProperties(...['table_name', 'capacity']);
 
 const validValues = (req, res, next) => {
   const { table_name, capacity } = req.body.data;
-  if (!capacity || !capacityIsValid(capacity)) {
+  if (!capacityIsValid(capacity)) {
     return next({
       status: 400,
       message: 'capacity must be a whole number greater than or equal to 1',
     });
   }
-  if (!table_name || !tableNameIsValid(table_name)) {
+  if (!tableNameIsValid(table_name)) {
     return next({
       status: 400,
       message: 'table_name must be more than one character',
@@ -95,15 +133,26 @@ const destroy = async (req, res, next) => {
 
 // assigning res
 
+// const hasResId = (req, res, next) => {
+//   const { reservation_id } = req.body.data;
+//   if (reservation_id) {
+//     res.locals.resId = reservation_id;
+//     return next();
+//   }
+//   next({
+//     status: 400,
+//     message: 'reservation_id is missing',
+//   });
+// };
+
 const hasResId = (req, res, next) => {
-  const { reservation_id } = req.body.data;
-  if (reservation_id) {
-    res.locals.resId = reservation_id;
+  if (req.body?.data?.reservation_id) {
+    res.locals.resId = req.body.data.reservation_id;
     return next();
   }
   next({
     status: 400,
-    message: 'reservation id is missing',
+    message: `reservation_id is missing from request`,
   });
 };
 
@@ -116,7 +165,7 @@ const reservationExists = async (req, res, next) => {
   }
   next({
     status: 404,
-    message: `Reservation ${reservation_id} does not exist`,
+    message: `Reservation ${resId} does not exist`,
   });
 };
 
@@ -148,7 +197,7 @@ const tableSize = (req, res, next) => {
   }
   next({
     status: 400,
-    message: `Table ${table.table_name} does not have enough room for ${reservation.people} people`,
+    message: `Table ${table.table_name} does not have the capacity for ${reservation.people} people`,
   });
 };
 
@@ -204,6 +253,8 @@ const removeFromTable = (req, res, next) => {
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
+    hasValidProperties,
+    hasRequiredProperties,
     validValues,
     asyncErrorBoundary(duplicateNameCheck),
     asyncErrorBoundary(create),

@@ -145,13 +145,13 @@ const validateValues = (req, res, next) => {
   if (!timeIsValid(reservation_time)) {
     return next({
       status: 400,
-      message: `reservation time must be in HH:MM:SS (or HH:MM) format ${reservation_time}`,
+      message: `reservation_time must be in HH:MM:SS (or HH:MM) format ${reservation_time}`,
     });
   }
   if (!dateFormatIsValid(reservation_date)) {
     return next({
       status: 400,
-      message: 'reservation date must be in YYYY-MM-DD format',
+      message: 'reservation_date must be in YYYY-MM-DD format',
     });
   }
 
