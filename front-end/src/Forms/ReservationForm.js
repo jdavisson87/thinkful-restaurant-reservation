@@ -114,7 +114,7 @@ const ReservationForm = () => {
             name="first_name"
             onChange={handleChange}
             value={formData.first_name}
-            required={true}
+            required
           />
         </div>
         <div className="form-group col-md-4">
@@ -127,7 +127,7 @@ const ReservationForm = () => {
             placeholder="Last Name"
             onChange={handleChange}
             value={formData.last_name}
-            required={true}
+            required
           />
         </div>
         <div className="form-group col-md-4">
@@ -141,9 +141,8 @@ const ReservationForm = () => {
             name="mobile_number"
             onChange={handleChange}
             placeholder="XXX - XXX - XXXX"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             value={formData.mobile_number}
-            required={true}
+            required
           />
           <span className="validity" />
         </div>
@@ -172,7 +171,7 @@ const ReservationForm = () => {
             placeholder="HH:MM"
             pattern="[0-9]{2}:[0-9]{2}"
             value={formData.reservation_time}
-            required={true}
+            required
           />
         </div>
         <div className="form-group col-md-4">
@@ -183,7 +182,7 @@ const ReservationForm = () => {
             name="people"
             className="form-control"
             onChange={handleChange}
-            required={true}
+            required
             min="1"
             value={formData.people}
           />
