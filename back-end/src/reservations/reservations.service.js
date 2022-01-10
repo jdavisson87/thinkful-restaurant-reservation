@@ -9,14 +9,14 @@ const searchByDate = (date) => {
     .orderBy('reservation_time');
 };
 
-// returns reservations for mobile numbers
-const searchByNumber = (mobile) => {
+function searchByNumber(mobile_number) {
   return knex('reservations')
-    .select('*')
-    .where({ mobile_number: mobile })
-    .whereNot('status', 'finished')
+    .whereRaw(
+      "translate(mobile_number, '() -', '') like ?",
+      `%${mobile_number.replace(/\D/g, '')}%`
+    )
     .orderBy('reservation_date');
-};
+}
 
 // returns a reservation for the specified id
 const read = (id) => {
