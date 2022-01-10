@@ -133,18 +133,6 @@ const destroy = async (req, res, next) => {
 
 // assigning res
 
-// const hasResId = (req, res, next) => {
-//   const { reservation_id } = req.body.data;
-//   if (reservation_id) {
-//     res.locals.resId = reservation_id;
-//     return next();
-//   }
-//   next({
-//     status: 400,
-//     message: 'reservation_id is missing',
-//   });
-// };
-
 const hasResId = (req, res, next) => {
   if (req.body?.data?.reservation_id) {
     res.locals.resId = req.body.data.reservation_id;
