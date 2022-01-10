@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router';
-import { today, formatAsTime, formatAsDate } from '../utils/date-time';
+import { today, formatAsTime } from '../utils/date-time';
 import {
   createReservation,
   getReservation,
@@ -61,8 +61,8 @@ const ReservationForm = () => {
       last_name: formData.last_name,
       people: formData.people,
       mobile_number: formData.mobile_number,
-      reservation_date: formatAsDate(formData.reservation_date),
-      reservation_time: formatAsTime(formData.reservation_time),
+      reservation_date: formData.reservation_date,
+      reservation_time: formData.reservation_time,
       status: 'booked',
       reservation_id: reservation_id,
     };
@@ -155,7 +155,6 @@ const ReservationForm = () => {
             name="reservation_date"
             onChange={handleChange}
             placeholder="YYYY-MM-DD"
-            pattern="\d{4}-\d{2}-\d{2}"
             value={formData.reservation_date}
             required={true}
           />
@@ -169,7 +168,6 @@ const ReservationForm = () => {
             className="form-control"
             onChange={handleChange}
             placeholder="HH:MM"
-            pattern="[0-9]{2}:[0-9]{2}"
             value={formData.reservation_time}
             required
           />
