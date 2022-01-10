@@ -236,9 +236,9 @@ const destroy = async (req, res, next) => {
 
 // updating a reservations status
 
+const VALID_STATUSES = ['seated', 'finished', 'booked', 'cancelled'];
 const statusIsValid = (req, res, next) => {
-  const { status } = res.locals.reservation;
-  const VALID_STATUSES = ['seated', 'finished', 'booked', 'cancelled'];
+  const { status = 'unknown' } = req.body.data;
 
   if (!VALID_STATUSES.includes(status)) {
     return next({
@@ -246,6 +246,12 @@ const statusIsValid = (req, res, next) => {
       message: `${status} is an invalid status`,
     });
   }
+
+  next();
+};
+
+const isStatusFinished = (req, res, next) => {
+  const { status } = res.locals.reservation;
   if (status === 'finished') {
     return next({
       status: 400,
@@ -282,6 +288,7 @@ module.exports = {
   updateStatus: [
     asyncErrorBoundary(reservationExists),
     statusIsValid,
+    isStatusFinished,
     asyncErrorBoundary(updateStatus),
   ],
   delete: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
