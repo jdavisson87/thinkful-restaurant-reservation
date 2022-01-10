@@ -77,7 +77,7 @@ const ReservationSeating = () => {
           <select
             name="table_id"
             onChange={handleChange}
-            required={true}
+            required
             style={{ minWidth: '200px' }}
           >
             <option defaultValue>Table: # - Capacity: # </option>

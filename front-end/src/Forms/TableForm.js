@@ -12,7 +12,7 @@ const TableForm = () => {
   const initialNewTable = useMemo(() => {
     return {
       table_name: '',
-      capacity: 1,
+      capacity: '',
     };
   }, []);
 
@@ -34,6 +34,9 @@ const TableForm = () => {
 
   const handleChange = ({ target }) => {
     let { name, value } = target;
+    if (name === 'capacity' && typeof value === 'string') {
+      value = +value;
+    }
     setNewTable({ ...newTable, [name]: value });
   };
 
