@@ -11,12 +11,11 @@ const Table = ({ table }) => {
   const { table_name, capacity, table_id, reservation_id } = table;
   const [tableError, setTableError] = useState(null);
   const history = useHistory();
-
-  let status = reservation_id ? 'Occupied' : 'Free';
+  console.log(table);
+  let status = reservation_id ? 'occupied' : 'free';
   let tableShape = capacity <= 2 ? 'double' : capacity <= 4 ? 'quad' : 'great';
 
-  const handleFinish = (e) => {
-    e.preventDefault();
+  const handleFinish = () => {
     if (
       window.confirm(
         'Is this table ready to seat new guests? This cannot be undone.'
@@ -31,23 +30,32 @@ const Table = ({ table }) => {
     }
   };
 
-  let finishBtn = reservation_id ? (
+  let editBtn = reservation_id ? null : (
     <div>
-      <button onClick={handleFinish} className="btn btn-info mb-2">
-        Finish
-      </button>
+      <Link to={`/tables/${table_id}/edit`} disable={true}>
+        <FontAwesomeIcon icon={faCogs} />
+      </Link>
     </div>
-  ) : null;
+  );
+
+  let finishBtn = null;
+  if (reservation_id) {
+    finishBtn = (
+      <button
+        onClick={handleFinish}
+        data-table-id-finish={table_id}
+        className="btn btn-info mb-2"
+      >
+        <span>Finish</span>
+      </button>
+    );
+  }
 
   return (
     <li className="card tableCard m-2" key={table_id}>
       <div className="card-header d-flex justify-content-between align-content-center">
         <h5 className="m-0">{table_name}</h5>
-        <div>
-          <Link to={`/tables/${table_id}/edit`}>
-            <FontAwesomeIcon icon={faCogs} />
-          </Link>
-        </div>
+        {editBtn}
       </div>
       <div className="d-flex justify-content-center tableShape">
         <div className={`${tableShape}`} />
@@ -56,10 +64,11 @@ const Table = ({ table }) => {
         Status:&nbsp;
         <span
           className={
-            status === 'Free'
+            status === 'free'
               ? 'text-success font-weight-bold text-uppercase'
               : 'text-danger font-weight-bold text-uppercase'
           }
+          data-table-id-status={table.table_id}
         >
           {status}
         </span>
