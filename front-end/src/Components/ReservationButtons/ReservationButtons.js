@@ -3,16 +3,19 @@ import React from 'react';
 const ReservationButtons = ({ onCancel, id }) => (
   <div className="btn-toolbar-vertical" role="toolbar">
     <div className="btn-group">
-      <a className="btn btn-success m-1" href={`/reservations/${id}/edit`}>
+      <a
+        className="btn btn-success m-1 shadow"
+        href={`/reservations/${id}/edit`}
+      >
         <span className="oi oi-pencil mr-2 p-1">&nbsp;Edit</span>
       </a>
-      <a className="btn btn-info m-1" href={`/reservations/${id}/seat`}>
+      <a className="btn btn-info m-1 shadow" href={`/reservations/${id}/seat`}>
         <span className="oi oi-check mr-2 p-1">&nbsp;Seat</span>
       </a>
     </div>
     <div className="btn-group">
       <button
-        className="btn btn-danger m-1"
+        className="btn btn-danger m-1 shadow"
         onClick={onCancel}
         data-reservation-id-cancel={id}
       >
