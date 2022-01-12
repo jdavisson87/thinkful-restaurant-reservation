@@ -125,8 +125,9 @@ const updateTable = async (req, res) => {
 // Need to make sure the destroy function is not called if table_id is less than 5
 
 const destroy = async (req, res, next) => {
+  const { table_id } = res.locals.table;
   service
-    .delete(res.locals.table.table_id)
+    .delete(table_id)
     .then(() => res.sendStatus(204))
     .catch(next);
 };
@@ -196,7 +197,7 @@ const tableFree = (req, res, next) => {
   }
   next({
     status: 400,
-    message: `Table ${table.tableName} is already occupied`,
+    message: `Table ${table.table_name} is already occupied`,
   });
 };
 
@@ -220,7 +221,7 @@ const tableOccupied = (req, res, next) => {
   }
   next({
     status: 400,
-    message: `Table ${table.tableName} is not occupied`,
+    message: `Table ${table.table_name} is not occupied`,
   });
 };
 
@@ -234,7 +235,7 @@ const removeFromTable = (req, res, next) => {
   }
   next({
     status: 400,
-    message: `Table ${table.tableName} could not remove reservation with id ${table.reservation_id}`,
+    message: `Table with id ${table.table_id} could not remove reservation with id ${table.reservation_id}`,
   });
 };
 

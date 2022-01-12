@@ -1,22 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Table from '../../Components/Table/Table';
-import { listTables } from '../../utils/api';
-import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
-const TableList = () => {
-  // create a loading state
-
-  const loadTables = () => {
-    const abortController = new AbortController();
-    listTables(abortController.signal).then(setTables).catch(setTablesError);
-  };
-  useEffect(() => {
-    loadTables();
-  }, []);
-
-  const [tables, setTables] = useState([]);
-  const [tablesError, setTablesError] = useState(null);
-
+const TableList = ({ tables }) => {
   return tables.length === 0 ? (
     <div>
       <p>Loading...</p>
@@ -26,7 +11,6 @@ const TableList = () => {
       {tables.map((table) => (
         <Table table={table} key={`${table.table_id}${table.table_name}`} />
       ))}
-      <ErrorAlert error={tablesError} />
     </ul>
   );
 };

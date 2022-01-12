@@ -228,10 +228,8 @@ const update = async (req, res) => {
 };
 
 const destroy = async (req, res, next) => {
-  service
-    .delete(res.locals.reservation.reservation_id)
-    .then(() => res.sendStatus(204))
-    .catch(next);
+  const data = await service.delete(res.locals.reservation.reservation_id);
+  res.json({ data });
 };
 
 // updating a reservations status
@@ -282,6 +280,7 @@ module.exports = {
     validateProperties,
     hasRequiredProperties,
     validateValues,
+
     validUpdateStatus,
     asyncErrorBoundary(update),
   ],

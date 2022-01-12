@@ -11,7 +11,7 @@ const Table = ({ table }) => {
   const { table_name, capacity, table_id, reservation_id } = table;
   const [tableError, setTableError] = useState(null);
   const history = useHistory();
-  console.log(table);
+
   let status = reservation_id ? 'occupied' : 'free';
   let tableShape = capacity <= 2 ? 'double' : capacity <= 4 ? 'quad' : 'great';
 
@@ -23,6 +23,7 @@ const Table = ({ table }) => {
     ) {
       const abortController = new AbortController();
       setTableError(null);
+
       finishTable(table_id, abortController.signal)
         .then(() => history.go(0))
         .catch(setTableError);
@@ -32,7 +33,7 @@ const Table = ({ table }) => {
 
   let editBtn = reservation_id ? null : (
     <div>
-      <Link to={`/tables/${table_id}/edit`} disable={true}>
+      <Link to={`/tables/${table_id}/edit`}>
         <FontAwesomeIcon icon={faCogs} />
       </Link>
     </div>
@@ -42,9 +43,9 @@ const Table = ({ table }) => {
   if (reservation_id) {
     finishBtn = (
       <button
+        className="btn btn-info shadow mb-2"
         onClick={handleFinish}
-        data-table-id-finish={table_id}
-        className="btn btn-info mb-2"
+        data-table-id-finish={`${table_id}`}
       >
         <span>Finish</span>
       </button>
@@ -65,10 +66,10 @@ const Table = ({ table }) => {
         <span
           className={
             status === 'free'
-              ? 'text-success font-weight-bold text-uppercase'
-              : 'text-danger font-weight-bold text-uppercase'
+              ? 'text-success font-weight-bold '
+              : 'text-danger font-weight-bold '
           }
-          data-table-id-status={table.table_id}
+          data-table-id-status={`${table_id}`}
         >
           {status}
         </span>

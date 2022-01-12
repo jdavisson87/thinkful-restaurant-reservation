@@ -4,6 +4,10 @@ import ReservationItem from '../../Components/ReservationItem/ReservationItem';
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
 const ReservationList = ({ reservations, error, searchType }) => {
+  let reservationList = reservations.filter(
+    (reservation) => reservation.status !== 'finished'
+  );
+
   let content =
     reservations.length === 0 ? (
       <div>
@@ -11,7 +15,7 @@ const ReservationList = ({ reservations, error, searchType }) => {
       </div>
     ) : (
       <ul className="card-deck m-0 p-0">
-        {reservations.map((reservation) => (
+        {reservationList.map((reservation) => (
           <ReservationItem
             reservation={reservation}
             key={reservation.reservation_id}

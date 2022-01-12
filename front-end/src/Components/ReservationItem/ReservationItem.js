@@ -55,7 +55,7 @@ const ReservationItem = ({ reservation }) => {
     <li
       className="card m-1 "
       key={reservation_id}
-      style={{ 'min-width': '250px' }}
+      style={{ minWidth: '250px' }}
     >
       <div className="card-header d-flex flex-column">
         <h4 className="font-weight-bold">
@@ -79,7 +79,10 @@ const ReservationItem = ({ reservation }) => {
           <p className="font-weight-bold m-0 p-0">&nbsp; {people}</p>
         </div>
         <div className="row">
-          <p className="p-0 m-0"> Status: {resStatus}</p>
+          <p className="p-0 m-0" data-reservation-id-status={reservation_id}>
+            {' '}
+            Status: {resStatus}
+          </p>
         </div>
         <div className="row">{buttons}</div>
         <ErrorAlert error={cancelError} />
@@ -89,8 +92,3 @@ const ReservationItem = ({ reservation }) => {
 };
 
 export default ReservationItem;
-
-//
-//
-//         <p>Status: {resStatus}</p>
-//         <span>{buttons}</span>
