@@ -13,15 +13,21 @@ const DatePicker = ({ date }) => {
       </div>
       <div>
         <Link
-          className="btn btn-info m-2"
+          className="btn btn-info m-2 shadow"
           to={`/dashboard?date=${previous(date)}`}
         >
           &lArr; Previous
         </Link>
-        <Link className="btn btn-dark m-2" to={`/dashboard?date=${today()}`}>
+        <Link
+          className="btn btn-dark m-2 shadow"
+          to={`/dashboard?date=${today()}`}
+        >
           Today
         </Link>
-        <Link className="btn btn-info m-2" to={`/dashboard?date=${next(date)}`}>
+        <Link
+          className="btn btn-info m-2 shadow"
+          to={`/dashboard?date=${next(date)}`}
+        >
           Next &rArr;
         </Link>
       </div>
