@@ -7,10 +7,10 @@ import NotFound from '../ErrorHandlers/NotFound';
 const ReservationRoutes = () => (
   <div>
     <Switch>
-      <Route path="/reservations/new">
+      <Route path={'/reservations/new'}>
         <ReservationCtr />
       </Route>
-      <Route path="/reservations/:reservation_id/edit">
+      <Route path={'/reservations/:reservation_id/edit'}>
         <ReservationCtr />
       </Route>
       <Route path={`/reservations/:reservation_id/seat`}>

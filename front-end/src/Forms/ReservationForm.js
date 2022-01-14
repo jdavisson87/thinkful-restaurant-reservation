@@ -31,7 +31,13 @@ const ReservationForm = () => {
       const abortController = new AbortController();
       setFormError(null);
       getReservation(reservation_id, abortController.signal)
-        .then(setFormData)
+        .then((data) => {
+          let updatedData = { ...data };
+          updatedData.reservation_time = formatAsTime(
+            updatedData.reservation_time
+          );
+          setFormData(updatedData);
+        })
         .catch(setFormError);
       return () => abortController.abort();
     }
@@ -100,6 +106,8 @@ const ReservationForm = () => {
       Delete
     </button>
   );
+
+  console.log(formData.reservation_time);
 
   return (
     <form onSubmit={handleSubmit}>
