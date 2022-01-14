@@ -280,7 +280,6 @@ module.exports = {
     validateProperties,
     hasRequiredProperties,
     validateValues,
-
     validUpdateStatus,
     asyncErrorBoundary(update),
   ],

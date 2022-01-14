@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCogs } from '@fortawesome/free-solid-svg-icons';
 import { finishTable } from '../../utils/api';
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
@@ -32,11 +30,9 @@ const Table = ({ table }) => {
   };
 
   let editBtn = reservation_id ? null : (
-    <div>
-      <Link to={`/tables/${table_id}/edit`}>
-        <FontAwesomeIcon icon={faCogs} />
-      </Link>
-    </div>
+    <Link to={`/tables/${table_id}/edit`}>
+      <span className="oi oi-cog" />
+    </Link>
   );
 
   let finishBtn = null;
@@ -53,7 +49,11 @@ const Table = ({ table }) => {
   }
 
   return (
-    <li className="card tableCard m-2" key={table_id}>
+    <div
+      className="card tableCard m-2"
+      style={{ minWidth: '250px', maxWidth: '350px' }}
+      key={table_id}
+    >
       <div className="card-header d-flex justify-content-between align-content-center">
         <h5 className="m-0">{table_name}</h5>
         {editBtn}
@@ -61,23 +61,23 @@ const Table = ({ table }) => {
       <div className="d-flex justify-content-center tableShape">
         <div className={`${tableShape}`} />
       </div>
-      <span>
+      <div>
         Status:&nbsp;
         <span
           className={
             status === 'free'
-              ? 'text-success font-weight-bold '
-              : 'text-danger font-weight-bold '
+              ? 'text-success font-weight-bold text-uppercase'
+              : 'text-danger font-weight-bold text-uppercase'
           }
           data-table-id-status={`${table_id}`}
         >
           {status}
         </span>
-      </span>
-      <h5>Seats: {capacity}</h5>
-      {finishBtn}
+      </div>
+      <h5>Capacity: {capacity}</h5>
+      <div className="d-flex justify-content-center">{finishBtn}</div>
       <ErrorAlert error={tableError} />
-    </li>
+    </div>
   );
 };
 

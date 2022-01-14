@@ -3,7 +3,7 @@ import ReservationItem from '../../Components/ReservationItem/ReservationItem';
 
 import ErrorAlert from '../../ErrorHandlers/ErrorAlert';
 
-const ReservationList = ({ reservations, error, searchType }) => {
+const ReservationList = ({ reservations, error }) => {
   let reservationList = reservations.filter(
     (reservation) => reservation.status !== 'finished'
   );
@@ -11,7 +11,7 @@ const ReservationList = ({ reservations, error, searchType }) => {
   let content =
     reservations.length === 0 ? (
       <div>
-        <p>There are no reservations for this {searchType}</p>
+        <p>No reservations found</p>
       </div>
     ) : (
       <ul className="card-deck m-0 p-0">

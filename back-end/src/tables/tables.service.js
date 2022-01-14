@@ -18,7 +18,7 @@ const read = (id) => {
     .then((result) => result[0]);
 };
 
-const update = async (updatedTable, resId, updatedStatus) => {
+async function update(updatedTable, resId, updatedStatus) {
   try {
     await knex.transaction(async (trx) => {
       const returnedTable = await trx('tables')
@@ -34,7 +34,7 @@ const update = async (updatedTable, resId, updatedStatus) => {
   } catch (error) {
     console.error(error);
   }
-};
+}
 
 const updateTable = async (updatedTable) => {
   return knex('tables')

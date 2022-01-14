@@ -106,11 +106,11 @@ const ReservationForm = () => {
       <div className="form-group col-md-4">
         <label htmlFor="first_name">First Name:</label>
         <input
+          id="first_name"
+          name="first_name"
           type="text"
           className="form-control"
           placeholder="First Name"
-          id="first_name"
-          name="first_name"
           onChange={handleChange}
           value={formData.first_name}
           required={true}
@@ -120,9 +120,9 @@ const ReservationForm = () => {
         <label htmlFor="last_name">Last Name:</label>
         <input
           id="last_name"
+          name="last_name"
           type="text"
           className="form-control"
-          name="last_name"
           placeholder="Last Name"
           onChange={handleChange}
           value={formData.last_name}

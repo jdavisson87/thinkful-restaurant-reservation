@@ -20,7 +20,7 @@ const ReservationItem = ({ reservation }) => {
   const [cancelError, setCancelError] = useState(null);
 
   const handleCancel = () => {
-    if (window.confirm('Do you wish to cancel this reservation')) {
+    if (window.confirm('Do you want to cancel this reservation?')) {
       const abortController = new AbortController();
       setCancelError(null);
 
@@ -35,27 +35,47 @@ const ReservationItem = ({ reservation }) => {
 
   resStatus =
     status === 'cancelled' ? (
-      <span className="text-danger">CANCELLED</span>
+      <p className="p-0 mx-0 my-2">
+        Status:
+        <span
+          className="text-danger"
+          data-reservation-id-status={reservation_id}
+        >
+          &nbsp;CANCELLED
+        </span>
+      </p>
     ) : status === 'booked' ? (
-      <span className="text-success">BOOKED</span>
-    ) : status === 'finished' ? (
-      <span className="text-success">FINISHED</span>
+      <p className="p-0 mx-0 my-2">
+        Status:
+        <span
+          className="text-success p-0 mx-0 my-2"
+          data-reservation-id-status={reservation_id}
+        >
+          &nbsp;BOOKED
+        </span>
+      </p>
     ) : status === 'seated' ? (
-      <span className="text-success">SEATED</span>
+      <p className="p-0 mx-0 my-2">
+        Status:
+        <span
+          className="text-success p-0 mx-0 my-2"
+          data-reservation-id-status={reservation_id}
+        >
+          &nbsp;SEATED
+        </span>
+      </p>
     ) : null;
 
-  let buttons = null;
-  if (status === 'booked') {
-    buttons = (
+  let buttons =
+    status === 'booked' ? (
       <ReservationButtons onCancel={handleCancel} id={reservation_id} />
-    );
-  }
+    ) : null;
 
   return (
     <li
       className="card m-1 "
       key={reservation_id}
-      style={{ minWidth: '250px' }}
+      style={{ minWidth: '250px', maxWidth: '350px' }}
     >
       <div className="card-header d-flex flex-column">
         <h4 className="font-weight-bold">
@@ -68,23 +88,18 @@ const ReservationItem = ({ reservation }) => {
         </h5>
       </div>
       <div className="card-body container-fluid text-center">
-        <div className="row">
+        <div className="row d-flex justify-content-center">
           <p className="m-0 p-0">Reservation Time:</p>
           <p className="font-weight-bold m-0 p-0">
             &nbsp; {printableTime(reservation_time)}
           </p>
         </div>
-        <div className="row">
+        <div className="row d-flex justify-content-center">
           <p className="p-0 m-0"> Size: </p>
           <p className="font-weight-bold m-0 p-0">&nbsp; {people}</p>
         </div>
-        <div className="row">
-          <p className="p-0 m-0" data-reservation-id-status={reservation_id}>
-            {' '}
-            Status: {resStatus}
-          </p>
-        </div>
-        <div className="row">{buttons}</div>
+        <div className="row d-flex justify-content-center">{resStatus}</div>
+        <div className="row d-flex justify-content-center">{buttons}</div>
         <ErrorAlert error={cancelError} />
       </div>
     </li>

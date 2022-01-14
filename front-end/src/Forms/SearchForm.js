@@ -33,15 +33,14 @@ const SearchForm = ({ setSearch, setReservations, setErrors }) => {
         <label htmlFor="mobile_number">
           <h5 className="mx-0 my-1">Search by Mobile Number</h5>
         </label>
-        <p className="mx-0 my-1">Please format your number with dashes</p>
+        <p className="mx-0 my-1">No dashes required</p>
 
         <div className="input-group mb-3">
           <input
             type="tel"
             name="mobile_number"
             id="mobile_number"
-            placeholder="XXX - XXX - XXXX"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            placeholder="XXXXXXXXXX"
             required={true}
             onChange={handleChange}
           />
