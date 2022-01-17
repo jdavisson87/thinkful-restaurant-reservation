@@ -107,8 +107,6 @@ const ReservationForm = () => {
     </button>
   );
 
-  console.log(formData.reservation_time);
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group col-md-4">

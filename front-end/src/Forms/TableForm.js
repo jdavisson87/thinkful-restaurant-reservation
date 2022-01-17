@@ -62,6 +62,7 @@ const TableForm = () => {
     const abortController = new AbortController();
     setTableError(null);
     if (table_id) {
+      console.log('newTable', newTable);
       updateTable(table_id, newTable, abortController.signal)
         .then(() => history.push('/dashboard'))
         .catch(setTableError);

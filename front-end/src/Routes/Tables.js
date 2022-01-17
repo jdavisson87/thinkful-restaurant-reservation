@@ -9,7 +9,7 @@ const Tables = () => (
       <Route path={'/tables/new'}>
         <TableCtr />
       </Route>
-      <Route path={'/tables/:table_id/edit'}>
+      <Route path={`/tables/:table_id/edit`}>
         <TableCtr />
       </Route>
       <Route>

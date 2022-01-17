@@ -18,7 +18,7 @@ const read = (id) => {
     .then((result) => result[0]);
 };
 
-async function update(updatedTable, resId, updatedStatus) {
+const update = async (updatedTable, resId, updatedStatus) => {
   try {
     await knex.transaction(async (trx) => {
       const returnedTable = await trx('tables')
@@ -34,14 +34,13 @@ async function update(updatedTable, resId, updatedStatus) {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
-const updateTable = async (updatedTable) => {
+const updateTable = (updatedTable) => {
   return knex('tables')
-    .select('*')
     .where({ table_id: updatedTable.table_id })
     .update(updatedTable, '*')
-    .then((updatedTable) => updatedTable[0]);
+    .then((table) => table[0]);
 };
 
 const destroy = (tableId) => {

@@ -115,10 +115,10 @@ const update = async (req, res) => {
   res.json({ data });
 };
 
-const updateTable = async (req, res) => {
-  const { table } = res.locals;
+const updateNewTable = async (req, res) => {
+  const { updated } = req.body.data;
 
-  const data = service.updateTable(table);
+  let data = await service.updateTable(updated);
   res.json({ data });
 };
 
@@ -251,7 +251,7 @@ module.exports = {
   read: [asyncErrorBoundary(tableExist), asyncErrorBoundary(read)],
   updateTable: [
     asyncErrorBoundary(tableExist),
-    asyncErrorBoundary(updateTable),
+    asyncErrorBoundary(updateNewTable),
   ],
   assignReservation: [
     hasResId,

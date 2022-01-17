@@ -157,9 +157,10 @@ export const updateTable = async (id, updatedInformation, signal) => {
   const options = {
     method: 'PUT',
     headers,
-    body: JSON.stringify({ data: updatedInformation }),
+    body: JSON.stringify({ data: { updated: updatedInformation } }),
     signal,
   };
+
   return await fetchJson(url, options);
 };
 

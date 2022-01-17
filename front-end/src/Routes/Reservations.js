@@ -10,7 +10,7 @@ const ReservationRoutes = () => (
       <Route path={'/reservations/new'}>
         <ReservationCtr />
       </Route>
-      <Route path={'/reservations/:reservation_id/edit'}>
+      <Route path={`/reservations/:reservation_id/edit`}>
         <ReservationCtr />
       </Route>
       <Route path={`/reservations/:reservation_id/seat`}>
