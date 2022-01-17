@@ -2,13 +2,13 @@
 
 ## Front-End
 
-⋅⋅⋅ React
-⋅⋅⋅ Bootstrap
-⋅⋅⋅ Jest
+- React
+- Bootstrap
+- Jest
 
 ## Back-End
 
-⋅⋅⋅ Node
-⋅⋅⋅ Express
-⋅⋅⋅ Knex
-⋅⋅⋅ PostgreSQL
+- Node
+- Express
+- Knex
+- PostgreSQL
