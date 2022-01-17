@@ -7,7 +7,7 @@ const NewTableCtr = () => {
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    table_id ? setTitle(`Edit #${table_id}`) : setTitle('New');
+    table_id ? setTitle(`Edit`) : setTitle('New');
   }, [table_id]);
 
   return (
