@@ -19,6 +19,26 @@
 - Knex
 - PostgreSQL
 
+## API Documentation
+
+| Endpoint                                  | Description                                                            |
+| ----------------------------------------- | ---------------------------------------------------------------------- |
+| `GET /reservations`                       | returns reservations                                                   |
+| `POST /reservations`                      | creates and returns a reservation                                      |
+| `GET /reservations?date='YYYY-MM-DD'`     | returns reservations on specified date                                 |
+| `GET /reservations?mobile_number=123`     | returns reservations by searching for phone number                     |
+| `GET /reservations/:reservationId`        | returns reservation by reservationId                                   |
+| `PUT /reservations/:reservationId`        | updates and returns the reservation matching the reservationId         |
+| `DELETE /reservations/:reservationId`     | deletes current reservation if no longer needed                        |
+| `PUT /reservations/:reservationId/status` | updates the status of a reservation                                    |
+| `GET /tables`                             | returns all Tables                                                     |
+| `POST /tables`                            | creates and returns a new table                                        |
+| `PUT /tables/:table_id/seat`              | assigns a table with a reservationId and changes status to "occupied"  |
+| `DELETE /tables/:table_id/seat`           | updates a table by deleting reservationId and changes status to "free" |
+| `GET /tables/:table_id/edit`              | returns table by table Id                                              |
+| `PUT /tables/:table_id/edit`              | updated and returns the table matching the table Id                    |
+| `DELETE /tables/:table_id/edit`           | removes table so it can no longer be used                              |
+
 ## Installation
 
 1. Fork and clone this repository
