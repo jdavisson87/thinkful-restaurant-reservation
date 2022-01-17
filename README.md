@@ -6,18 +6,24 @@
 
 ## Technology
 
-### Front-End
+### _Front-End_
 
 - React
 - Bootstrap
+- JavaScript
+- CSS
 - Jest
 
-### Back-End
+### _Back-End_
 
 - Node
 - Express
 - Knex
 - PostgreSQL
+
+## Dashboard
+
+![Dashboard Image](/readme-screenshots/Dashboard.png)
 
 ## API Documentation
 
