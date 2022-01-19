@@ -18,22 +18,22 @@ import { today } from '../utils/date-time';
 function Routes() {
   return (
     <Switch>
-      <Route exact={true} path={'/'}>
+      <Route exact path="/">
         <Redirect to={'/dashboard'} />
       </Route>
-      <Route exact={true} path={'/reservations'}>
+      <Route exact path="/reservations">
         <Redirect to={'/dashboard'} />
       </Route>
-      <Route path={'/reservations'}>
+      <Route path="/reservations">
         <ReservationRoutes />
       </Route>
-      <Route path={'/tables'}>
+      <Route path="/tables">
         <Tables />
       </Route>
-      <Route path={'/search'}>
+      <Route path="/search">
         <Search />
       </Route>
-      <Route path={'/dashboard'}>
+      <Route path="/dashboard">
         <Dashboard date={today()} />
       </Route>
       <Route>
