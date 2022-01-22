@@ -18,9 +18,9 @@ const Menu = () => {
           to="/"
         >
           <div className="sidebar-brand-text text-center mx-0">
-            <h1 className="m-0 p-0 text-wrap">
+            <h4 className="m-0 p-0 text-wrap">
               Periodic Tables Reservation System
-            </h1>
+            </h4>
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
